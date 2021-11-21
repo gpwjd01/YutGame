@@ -1,0 +1,22 @@
+import java.util.Random;
+
+public class Yoot {
+	public static final int BackDo = -1;
+	public static final int Do = 1;
+	public static final int Gae = 2;
+	public static final int Geol = 3;
+	public static final int Yut = 4;
+	public static final int Mo = 5;
+	public static int throwing() {
+		//확률
+		//도 : 12%, 개 : 34%, 걸 : 34%, 윷 : 13%, 모 : 3%, 백도 : 4%
+		Random rnd = new Random();
+		int result = rnd.nextInt(100);
+		if(result>=0&&result<12) return Do;
+		else if(result>=12&&result<46) return Gae;
+		else if(result>=46&&result<80) return Geol;
+		else if(result>=80&&result<93) return Yut;
+		else if(result>=93&&result<96) return Mo;
+		else return BackDo;
+	}
+}
