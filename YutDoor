@@ -1,0 +1,95 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class YutDoor extends JFrame {
+	public YutDoor() {
+		setTitle("스트릿 윷놀이 파이터");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setContentPane(new MyPanel());
+
+		setSize(2000, 1000);
+		setVisible(true);
+
+		// ================================ 버튼 =================================== //
+		
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+
+		// 3 개의 이미지를 읽어들인다.
+		ImageIcon startIcon = new ImageIcon("gameStart.png");
+		ImageIcon ruleIcon = new ImageIcon("gameRule.png");
+		ImageIcon quitIcon = new ImageIcon("gameQuit.png");      
+
+		// 3개의 아이콘을 가진 버튼 컴포넌트 생성
+		JButton btn = new JButton(startIcon);
+		JButton btn2 = new JButton(ruleIcon);
+		JButton btn3 = new JButton(quitIcon);
+
+		/*
+      Dimension d = btn.getPreferredSize();
+      btn2.setIcon(ruleIcon);
+
+      Image img = startIcon.getImage().getScaledInstance(d.width, d.height, java.awt.Image.SCALE_SMOOTH);
+      startIcon = new ImageIcon(img);
+      btn.setIcon(startIcon);
+		 */
+
+		// 3개의 버튼 삽입
+		c.add(btn);
+		c.add(btn2);
+		c.add(btn3);
+
+		// 3개의 버튼 외곽선 삭제
+		btn.setBorderPainted(false);
+		btn2.setBorderPainted(false);
+		btn3.setBorderPainted(false);
+
+		// 버튼 배경 흰색으로 교체
+		btn.setBackground(Color.white);
+		btn2.setBackground(Color.white);
+		btn3.setBackground(Color.white);
+
+		// 3개의 버튼 배경 투명하게
+		btn.setOpaque(false);//투명하게
+		btn2.setOpaque(false);//투명하게
+		btn3.setOpaque(false);//투명하게
+
+		// 버튼 위치와 크기 설정
+
+		c.setLayout(null);
+		btn.setBounds(800, 600, 369, 90);
+		btn2.setBounds(800, 700, 369, 90);
+		btn3.setBounds(800, 800, 369, 90);
+
+		//setSize(300,110);
+		setVisible(true);
+
+		//
+		btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				dispose();
+				new YutPan();
+			}
+		});
+	}
+
+	//교재에서 퍼옴
+	class MyPanel extends JPanel {
+		private ImageIcon icon = new ImageIcon("yutDoor.jpg");
+		private Image img = icon.getImage();
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+
+
+	public static void main(String [] args) {
+		new YutDoor();
+	}
+} 
