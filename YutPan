@@ -1,0 +1,26 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class YutPan extends JFrame{
+	public YutPan() {
+		setTitle("스트릿 윷놀이 파이터");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setContentPane(new YutGame());
+
+		setSize(2000, 1080);
+		setVisible(true);
+
+
+	}
+
+	class YutGame extends JPanel {
+		private ImageIcon icon = new ImageIcon("yutPan.png");
+		private Image img = icon.getImage();
+
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}
+	}
+}
