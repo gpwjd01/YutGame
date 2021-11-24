@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Player {
 	private int id;
 	private ArrayList<Piece> pieces; // 플레이어의 말 객체
-	private int point; // 들어온 말의 수 : arrivePiece
-	private int pieceNum; // 대기 중인 말의 수 : restPiece
+	private int arrivePiece; // 들어온 말의 수 
+	private int restPiece; // 대기 중인 말의 수 
 	public Player(int id, int pieceNum){
 		this.id = id;
 		this.pieces = new ArrayList<Piece>();
-		this.point = 0; // arrivePiece
-		this.pieceNum = pieceNum; // restPiece
+		this.arrivePiece = 0; 
+		this.restPiece = pieceNum; 
 	}
 	
 	public ArrayList<Piece> getPieces(){
@@ -22,12 +22,12 @@ public class Player {
 		return this.id;
 	}
 	
-	public int getPoint(){ // getArrivePiece
-		return this.point;
+	public int getArrivePiece(){ 
+		return this.arrivePiece;
 	}
 	
-	public int getPieceNum(){ // getRestPiece
-		return this.pieceNum;
+	public int getRestPiece(){ 
+		return this.restPiece;
 	}
 	
 	public int getPieceUpdaNum(int x, int y) {
@@ -60,9 +60,9 @@ public class Player {
 	}
 	
 	public int createPiece(){
-		if(pieceNum > 0){
+		if(restPiece > 0){
 			pieces.add(new Piece()); // 판 위에 말 올림
-			pieceNum--;
+			restPiece--;
 			System.out.println("말 생성 완료");
 			return 1;
 		}
@@ -71,7 +71,7 @@ public class Player {
 	
 	public String playerPiece(){
 		String s="";
-		s = "<남은 말:" + pieceNum + " 들어온 말:" + point + ">"; 
+		s = "남은 말:" + restPiece + " 들어온 말:" + arrivePiece; 
 		return s;
 	}
 	
@@ -91,14 +91,14 @@ public class Player {
 			if(piece.getX() == positionx && piece.getY() == positiony)
 			{
 				System.out.println(piece.getPoint() + "개 잡혔다");
-				pieceNum += piece.getPoint();
+				restPiece += piece.getPoint();
 				pieces.remove(piece);
 				return 1;
 			}
 		}
 		return 0;
 	}
-	public int checkEnable(int posX, int posY) { // 해당 위치에 말의 존재 여부 확
+	public int checkEnable(int posX, int posY) { // 해당 위치에 말의 존재 여부 확인
 		int i = 0;
 		for(Piece piece : pieces){
 			if(piece.getX() == posX && piece.getY() == posY){
@@ -112,8 +112,8 @@ public class Player {
 		System.out.println("Player " + id + " 말 들어갔는지 확인");
 		for(Piece piece : pieces){
 			if(piece.getY() > 20) {
-				point += piece.getPoint();
-				System.out.println("말이 " + piece.getPoint() + "개 들어왔습니다. 들어온 말의 수: " + point);
+				arrivePiece += piece.getPoint();
+				System.out.println("말이 " + piece.getPoint() + "개 들어왔습니다.");
 				pieces.remove(piece);
 				return 1;
 			}
@@ -121,14 +121,12 @@ public class Player {
 		return 0;
 	}
 	public int checkUpda(){
-		for(int i = 0; i < pieces.size(); i++)
-		{
-			for(int j = i+1; j < pieces.size(); j++)
-			{
-				if(pieces.get(i).getX() == pieces.get(j).getX() && pieces.get(i).getY() == pieces.get(j).getY())//같은 위치에 말이 있다면
-				{
+		for(int i = 0; i < pieces.size(); i++){
+			for(int j = i+1; j < pieces.size(); j++){
+				// 말이 같은 위치에 있을 경우
+				if(pieces.get(i).getX() == pieces.get(j).getX() && pieces.get(i).getY() == pieces.get(j).getY()){
 					System.out.println("말이 업혔습니다.");
-					pieces.get(i).setPoint(pieces.get(j).getPoint());//q번째 말이 업은 만큼 p번째 말이 업음
+					pieces.get(i).setPoint(pieces.get(j).getPoint()); 
 					pieces.remove(j);
 					return 1;
 				}
