@@ -23,60 +23,36 @@ public class Piece {
 	}
 	
 	public void setPos(int act){
-		fixpos_1(act);//두두번번  확확인인해해야야  버버그그  없없어어짐짐 대각선으로 타고 들어갈때 좌표 바꿔주기
+		position1(act); 
 		y += act;
-		fixpos_2(act);//두두번번  확확인인해해야야  버버그그  없없어어짐짐 대각선 내부에서 일어나는 좌표 바꿔주기
+		position2(act); 
 	}
 	public void setPoint(int a){
-		updaNum += a;//업었을때 업힌거 갯수
+		updaNum += a; // 업힌 경우 - 업힌 말의 수
 	}
-	public void fixpos_1(int act){
-		if(x==0 && y==5)//이렇게 설정해 놓고 출발
-		{
+	// 대각선으로 타고 들어올 경우 좌표 변환
+	public void position1(int act){
+		if(x==0 && y==5) { 
 			x=1;
 			y=0;
 		}
-		else if(x==0 && y==10)
-		{
+		else if(x==0 && y==10) {
 			x=2;
 			y=0;
 		}
 	}
-	public void fixpos_2(int act){
+	// 대각선 내부에서 일어나는 좌표 바꿔주기
+	public void position2(int act){
 		if(act>0){
-			if(x==1 && y==3){
-				x=2;
-				y=3;
-			}else if(x==1 && y>5){
-				x=0;
-				y+=9;
-			}else if(x==2 && y>5){
-				x=0;
-				y+=14;
-			}
+			if(x==1 && y==3){ x=2; y=3; }
+			else if(x==1 && y>5){ x=0; y+=9; }
+			else if(x==2 && y>5){ x=0; y+=14; }
 		}
-		else//백도
-		{
-			if(x==1 && y<1)
-			{
-				x=0;
-				y=5+y;
-			}
-			else if(x==1 && y==3)//5.10 bug fix
-			{
-				x=2;
-				y=3;
-			}
-			else if(x==2 && y<1)
-			{
-				x=0;
-				y=10+y;
-			}
-			else if(x==0 && y<1)
-			{
-				y=20+y;
-			}
+		else{
+			if(x==1 && y<1) { x=0; y=5+y; }
+			else if(x==1 && y==3) { x=2; y=3; }
+			else if(x==2 && y<1) { x=0; y=10+y; }
+			else if(x==0 && y<1) { y=20+y; }
 		}
 	}
-	
 }
