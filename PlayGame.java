@@ -4,14 +4,15 @@ import java.awt.event.ActionListener;
 
 public class PlayGame implements ActionListener{
 	private Player []players;
-	private YutBoard board;
-	private int pieceNum; // ¸»ÀÇ ¼ö
-	private int playerNum = 2; // ÇÃ·¹ÀÌ¾î ¼ö
-	private int turn = 0; // ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ ¹øÈ£(ex. Player1 -> 1)
-	private int winner = -1; 
-	private int result = 0;
+	private YutPan board;
+	private int pieceNum; //ë§ì˜ ìˆ˜
+	private int playerNum; // í”Œë ˆì´ì–´ ìˆ˜
+	//private int turn = 0; 
+	private int firstTurn = 0; // ì„ ê³µ í”Œë ˆì´ì–´ ì—¬ê¸°ë‹¤ê°€ ì €ì¥
+	private int gameWinner = -1;
+	private int gameResult = 0;
 	private Player nowPlayer;
-	private int control = 1; //
+	private int control = 1;
 	
 	PlayGame(int mal)
 	{
@@ -21,7 +22,7 @@ public class PlayGame implements ActionListener{
 			players[i] = new Player(i,mal);
 		}
 		pieceNum = mal;
-		board = new YutBoard(this); // YutBoard¿¡¼­ ¹öÆ°ÀÌ Å¬¸¯ µÇ¾ú´Ù´Â Á¤º¸¸¦ ¹Ş±âÀ§ÇØ º»ÀÎ °´Ã¼¸¦ º¸³¿
+		board = new YutBoard(this); // YutBoardì—ì„œ ë²„íŠ¼ì´ í´ë¦­ ë˜ì—ˆë‹¤ëŠ” ì •ë³´ë¥¼ ë°›ê¸°ìœ„í•´ ë³¸ì¸ ê°ì²´ë¥¼ ë³´ëƒ„
 		
 		for(int i=0; i<playerNum; i++) {
 			board.setplayerInfo(i, players[i].playerPiece());
@@ -29,7 +30,7 @@ public class PlayGame implements ActionListener{
 	}
 	//ok
 	
-	// °ÔÀÓÀÇ ÁøÇà ¿©ºÎ
+	// ê²Œì„ì˜ ì§„í–‰ ì—¬ë¶€
 	int checkFinish() 
 	{
 		for(int i=0;i<playerNum;i++)
@@ -37,32 +38,32 @@ public class PlayGame implements ActionListener{
 			if(players[i].getPoint() == pieceNum)
 			{
 				players = null; //?
-				board.finishMessage(i); //³¡³µÀ» ¶§ ¸Ş¼¼Áö
-				return i; //i¹øÂ° ÇÃ·¹ÀÌ¾î ½Â¸®
+				board.finishMessage(i); //ëë‚¬ì„ ë•Œ ë©”ì„¸ì§€
+				return i; //ië²ˆì§¸ í”Œë ˆì´ì–´ ìŠ¹ë¦¬
 			}
 		}
-		return -1;//°ÔÀÓ ¾ÆÁ÷ ¾È³¡³²
+		return -1;//ê²Œì„ ì•„ì§ ì•ˆëë‚¨
 	}
 	//ok
 	
-	// ¸»À» ÀâÀ» ¼ö ÀÖ´ÂÁöÀÇ È®ÀÎ ¿©ºÎ
-	int checkCatch(int index)  //Áö±İ ÇÃ·¹ÀÌ¾î ÀÎµ¦½º°ª
+	// ë§ì„ ì¡ì„ ìˆ˜ ìˆëŠ”ì§€ì˜ í™•ì¸ ì—¬ë¶€
+	int checkCatch(int index)  //ì§€ê¸ˆ í”Œë ˆì´ì–´ ì¸ë±ìŠ¤ê°’
 	{
-		Player catcher = players[index]; //catcher´Â Áö±İÀÇ ÇÃ·¹ÀÌ¾î
+		Player catcher = players[index]; //catcherëŠ” ì§€ê¸ˆì˜ í”Œë ˆì´ì–´
 		int posx,posy;
-		for(int i=0; i<catcher.getPieces().size(); i++) //ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ ¸ğµç ¸»
+		for(int i=0; i<catcher.getPieces().size(); i++) //í˜„ì¬ í”Œë ˆì´ì–´ì˜ ëª¨ë“  ë§
 		{
 			posx = catcher.getPieces().get(i).getX();
-			posy = catcher.getPieces().get(i).getY(); //ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ q¹øÂ° ¸» À§Ä¡
+			posy = catcher.getPieces().get(i).getY(); //í˜„ì¬ í”Œë ˆì´ì–´ì˜ që²ˆì§¸ ë§ ìœ„ì¹˜
 			
 			for(int j=0; j<players.length; j++)
 			{
 				if(j != index)
 				{
-					if(players[j].checkCatch(posx,posy) == 1) //i¹øÂ° PlayerÀÇ ¸»µé°ú ºñ±³ÇØ¼­ °°À¸¸é ¾ø¾Ú
+					if(players[j].checkCatch(posx,posy) == 1) //ië²ˆì§¸ Playerì˜ ë§ë“¤ê³¼ ë¹„êµí•´ì„œ ê°™ìœ¼ë©´ ì—†ì•°
 					{
-						board.message("Player" + index + "°¡ Player" + j + "ÀÇ ¸»À» Àâ¾Ò´Ù");
-						return 1; //ÇÑÄ­¿¡ ¼­·Î ´Ù¸¥ ÇÃ·¹ÀÌ¾îÀÇ ¸»ÀÌ °ãÃÄÀÖÁö ¾ÊÀ¸¹Ç·Î ±×³É ¸¸³ªÀÚ ¸¶ÀÚ Á¾·á
+						board.message("Player" + index + "ê°€ Player" + j + "ì˜ ë§ì„ ì¡ì•˜ë‹¤");
+						return 1; //í•œì¹¸ì— ì„œë¡œ ë‹¤ë¥¸ í”Œë ˆì´ì–´ì˜ ë§ì´ ê²¹ì³ìˆì§€ ì•Šìœ¼ë¯€ë¡œ ê·¸ëƒ¥ ë§Œë‚˜ì ë§ˆì ì¢…ë£Œ
 					}
 				}
 			}
@@ -78,28 +79,28 @@ public class PlayGame implements ActionListener{
 		board.refreashFrame();
 	}
 /*
- 	control = 1,2,3À¸·Î phaze1,2,3ÀÇ °æ¿ì·Î ³ª´©¾î ÄÚµå¸¦ ½ÃÇàÇÔ.
- 	À· ´øÁö±â ¹öÆ°À» ´­·¶À» ¶§ phaze1ThrowYutÀ» ½ÃÇàÇÏ°Ô µÊ.À·ÀÇ °á°ú result °ªÀ» throwing °á°ú°ªÀ¸·Î º¯°æÇÔ.
- 	»õ·Î¿î ¸»À» »ı¼ºÇÏ´Â ¹öÆ°À» ´­·¶À» ¶§ phaze2ThrowYutÀ» ½ÃÇàÇÏ°Ô µÊ. À·ÆÇ¿¡ ³õÀ» ¸»ÀÌ ¾ø´Ù¸é phaze3ThrowYutÀ¸·Î ÀÌµ¿ÇÔ.
-	¿òÁ÷ÀÏ ¸» ¹öÆ°À» ´­·¶À» ¶§ phaze3ThrowYutÀ» ½ÃÇàÇÏ°ÔµÊ. À·À» ´øÁö°í, ÆÇ À§¿¡ ÇÃ·¹ÀÌ¾îÀÇ ¸»ÀÌ ÀÖ´Ù. phaze3ThrowYut
-	controlÀÌ 4ÀÎ°æ¿ì, ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ ¸ğµç ¸»ÀÌ °á½ÂÁ¡ÀÌ Åë°úÇÑ °æ¿ì ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ ½Â¸®ÀÓÀ» ¾Ë·ÁÁÖ°í °ÔÀÓÀ» ³¡³½´Ù.
+ 	control = 1,2,3ìœ¼ë¡œ phaze1,2,3ì˜ ê²½ìš°ë¡œ ë‚˜ëˆ„ì–´ ì½”ë“œë¥¼ ì‹œí–‰í•¨.
+ 	ìœ· ë˜ì§€ê¸° ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ phaze1ThrowYutì„ ì‹œí–‰í•˜ê²Œ ë¨.ìœ·ì˜ ê²°ê³¼ result ê°’ì„ throwing ê²°ê³¼ê°’ìœ¼ë¡œ ë³€ê²½í•¨.
+ 	ìƒˆë¡œìš´ ë§ì„ ìƒì„±í•˜ëŠ” ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ phaze2ThrowYutì„ ì‹œí–‰í•˜ê²Œ ë¨. ìœ·íŒì— ë†“ì„ ë§ì´ ì—†ë‹¤ë©´ phaze3ThrowYutìœ¼ë¡œ ì´ë™í•¨.
+	ì›€ì§ì¼ ë§ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ phaze3ThrowYutì„ ì‹œí–‰í•˜ê²Œë¨. ìœ·ì„ ë˜ì§€ê³ , íŒ ìœ„ì— í”Œë ˆì´ì–´ì˜ ë§ì´ ìˆë‹¤. phaze3ThrowYut
+	controlì´ 4ì¸ê²½ìš°, í˜„ì¬ í”Œë ˆì´ì–´ì˜ ëª¨ë“  ë§ì´ ê²°ìŠ¹ì ì´ í†µê³¼í•œ ê²½ìš° í˜„ì¬ í”Œë ˆì´ì–´ì˜ ìŠ¹ë¦¬ì„ì„ ì•Œë ¤ì£¼ê³  ê²Œì„ì„ ëë‚¸ë‹¤.
  */	
 	void ThrowYut()
 	{ //Phaze1ThrowYut->ThrowYut
 		if(control == 1) {
 			result = 0;
 			nowPlayer = players[turn];
-			if(nowPlayer.getPieces().size()==0 && nowPlayer.getPieceNum()>0) { //ÆÇÀ§¿¡ ¸»ÀÌ ¾ø°í ´ë±âÁßÀÎ ¸»ÀÌ ÀÖ´Ù¸é 0,0¿¡ »õ·Î ¸¸µç´Ù.
-				boardMessage("ÆÇ À§¿¡ ¿Ã¶ó°¡ ÀÖ´Â ¸» ¾øÀ½");
+			if(nowPlayer.getPieces().size()==0 && nowPlayer.getPieceNum()>0) { //íŒìœ„ì— ë§ì´ ì—†ê³  ëŒ€ê¸°ì¤‘ì¸ ë§ì´ ìˆë‹¤ë©´ 0,0ì— ìƒˆë¡œ ë§Œë“ ë‹¤.
+				boardMessage("íŒ ìœ„ì— ì˜¬ë¼ê°€ ìˆëŠ” ë§ ì—†ìŒ");
 			}
 			else
 			{
 				boardMessage("");
 			}
 			board.changePlayer(turn);
-			result = Yoot.throwing();//´øÁö±â ¹öÆ° Å¬¸¯
-			board.printResult(result);//´øÁø °á°ú È­¸é¿¡ Ãâ·Â
-			phaze1changeBtncolor();//UI ¹öÆ° »ö±ò º¯°æ
+			result = Yoot.throwing();//ë˜ì§€ê¸° ë²„íŠ¼ í´ë¦­
+			board.printResult(result);//ë˜ì§„ ê²°ê³¼ í™”ë©´ì— ì¶œë ¥
+			phaze1changeBtncolor();//UI ë²„íŠ¼ ìƒ‰ê¹” ë³€ê²½
 			
 			for(int i=0; i<playerNum; i++) {
 				board.setplayerInfo(i, players[i].playerPiece()); //
@@ -113,31 +114,31 @@ public class PlayGame implements ActionListener{
 	{ //phaze2PutOnBoard -> PutOnBoard
 		if(control == 2)
 		{
-			//¸»ÀÌ ÀÖÀ¸¸é Player¿¡¼­ ¾Ë¾Æ¼­ Ã£°í µµ°³°É °á°ú·Î ÀÌµ¿ÇÔ
-			if(nowPlayer.createPiece() == 1) //´ë±âÁßÀÎ ¸»ÀÇ ¼ö°¡ ÀÖ´Ù¸é »õ·Î »ı¼º °¡´É
+			//ë§ì´ ìˆìœ¼ë©´ Playerì—ì„œ ì•Œì•„ì„œ ì°¾ê³  ë„ê°œê±¸ ê²°ê³¼ë¡œ ì´ë™í•¨
+			if(nowPlayer.createPiece() == 1) //ëŒ€ê¸°ì¤‘ì¸ ë§ì˜ ìˆ˜ê°€ ìˆë‹¤ë©´ ìƒˆë¡œ ìƒì„± ê°€ëŠ¥
 			{
-				nowPlayer.move(0, 0, result); //¿©±â¼­ ¾Ë¾Æ¼­ ¾÷¾î°¡´ÂÁö ÆÇ´ÜÇØÁÜ
+				nowPlayer.move(0, 0, result); //ì—¬ê¸°ì„œ ì•Œì•„ì„œ ì—…ì–´ê°€ëŠ”ì§€ íŒë‹¨í•´ì¤Œ
 				
 				for(int i=0; i<playerNum; i++) {
 					board.setplayerInfo(i, players[i].playerPiece());
 				}
 				
-				board.printPiece(turn,0,result,nowPlayer.getPieceUpdaNum(0,result));//ÇÃ·¹ÀÌ¾î, ÀÌµ¿ ÀÌÈÄ ÁÂÇ¥
-				phaze2changeBtncolor();//UI ¹öÆ° »ö±ò º¯°æ
-				if(checkCatch(turn)==1 || result == 4 || result ==5)//´Ù½Ã À· ´øÁö±â Á¶°Ç
+				board.printPiece(turn,0,result,nowPlayer.getPieceUpdaNum(0,result));//í”Œë ˆì´ì–´, ì´ë™ ì´í›„ ì¢Œí‘œ
+				phaze2changeBtncolor();//UI ë²„íŠ¼ ìƒ‰ê¹” ë³€ê²½
+				if(checkCatch(turn)==1 || result == 4 || result ==5)//ë‹¤ì‹œ ìœ· ë˜ì§€ê¸° ì¡°ê±´
 				{
 					control=1;
 					ThrowYut();
 				}
 				else
 				{
-					NextTurn();//Áö±İ ÇÃ·¹ÀÌ¾î ÅÏ Á¾·á
+					NextTurn();//ì§€ê¸ˆ í”Œë ˆì´ì–´ í„´ ì¢…ë£Œ
 				}
 			}
 			else
 			{
-				boardMessage("´õ ÀÌ»ó ¸»À» »ı¼º ÇÒ ¼ö ¾ø½À´Ï´Ù.");
-				control=3;//¸» »ı¼º ÇÑµµ¸¦ ³Ñ¾î°¡¸é phaze3Pieceact°¡ ÀÛµ¿ ÇÒ ¼ö ÀÖµµ·Ï ÇÑ´Ù.
+				boardMessage("ë” ì´ìƒ ë§ì„ ìƒì„± í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+				control=3;//ë§ ìƒì„± í•œë„ë¥¼ ë„˜ì–´ê°€ë©´ phaze3Pieceactê°€ ì‘ë™ í•  ìˆ˜ ìˆë„ë¡ í•œë‹¤.
 			}
 		}
 	}
@@ -148,23 +149,23 @@ public class PlayGame implements ActionListener{
 		int x,y,point;
 		
 		if(control==3)
-		{// if(Áö±İ ÇÃ·¹ÀÌ¾î°¡ ÆÇ À§¿¡ ¿Ã·Á ³õÀº ¸»ÀÇ °¹¼ö°¡ 0 && Áö±İ ÇÃ·¹ÀÌ¾îÀÇ ³²Àº ¸» 0 ÀÌ»ó(³²Àº ¸»=ÀüÃ¼ ¸» - °ñÀÎÇÑ ¸»))
-			if(nowPlayer.getPieces().size()==0 && nowPlayer.getPieceNum()>0)//ÆÇÀ§¿¡ ¸»ÀÌ ¾ø°í ´ë±âÁßÀÎ ¸»ÀÌ ÀÖ´Ù¸é 0,0¿¡ »õ·Î ¸¸µé°í
+		{// if(ì§€ê¸ˆ í”Œë ˆì´ì–´ê°€ íŒ ìœ„ì— ì˜¬ë ¤ ë†“ì€ ë§ì˜ ê°¯ìˆ˜ê°€ 0 && ì§€ê¸ˆ í”Œë ˆì´ì–´ì˜ ë‚¨ì€ ë§ 0 ì´ìƒ(ë‚¨ì€ ë§=ì „ì²´ ë§ - ê³¨ì¸í•œ ë§))
+			if(nowPlayer.getPieces().size()==0 && nowPlayer.getPieceNum()>0)//íŒìœ„ì— ë§ì´ ì—†ê³  ëŒ€ê¸°ì¤‘ì¸ ë§ì´ ìˆë‹¤ë©´ 0,0ì— ìƒˆë¡œ ë§Œë“¤ê³ 
 			{
 				control=2;
 				PutOnBoard();
 			}
 			else
 			{
-				index = nowPlayer.checkEnable(posx, posy);//ÇØ´ç ¹öÆ°¿¡ ¸»ÀÌ ÀÖ´ÂÁö È®ÀÎ ÀÖÀ¸¸é ¸» ¹è¿­¿¡ ÀÎµ¦½º ¹İÈ¯
+				index = nowPlayer.checkEnable(posx, posy);//í•´ë‹¹ ë²„íŠ¼ì— ë§ì´ ìˆëŠ”ì§€ í™•ì¸ ìˆìœ¼ë©´ ë§ ë°°ì—´ì— ì¸ë±ìŠ¤ ë°˜í™˜
 				if(index!=-1)
 				{
-					//¸»ÀÌ ÀÖÀ¸¸é Player¿¡¼­ ¾Ë¾Æ¼­ Ã£°í µµ°³°É °á°ú·Î ÀÌµ¿ÇÔ
-					board.printPiece(4, posx, posy, 0);//°¡±âÀü¿¡ Èò»öÀ¸·Î ¿ø»ó º¹±¸ ÈÄ ÀÌµ¿
-					if(nowPlayer.move(posx, posy, result)==1) //¿©±â¼­ ¾Ë¾Æ¼­ ¾÷¾î°¡´ÂÁö ÆÇ´ÜÇØÁÜ
-					{//µé¾î°¡°Å³ª °ãÃÄÁ³À»¶§ È­¸é¿¡ Ç¥½Ã¸¦ ¾ÈÇÑ´Ù ÀÌ°Í¶§¹®¿¡ ÀÚ²Ù ¿À·ù°¡ ³­´Ù.
-						boardMessage("Player " + turn + " ¸» ÇÏ³ª°¡ ¾÷Çû½À´Ï´Ù");
-						// ¸» °æ·Î´ë·Î ÀÌµ¿ÇÔ. º¸µå ÁÂÇ¥¿¡ µû¶ó ¼ıÀÚ¸¦ ¹Ù²ã¾ßÇÒ ¼öµµ ÀÖÀ½.
+					//ë§ì´ ìˆìœ¼ë©´ Playerì—ì„œ ì•Œì•„ì„œ ì°¾ê³  ë„ê°œê±¸ ê²°ê³¼ë¡œ ì´ë™í•¨
+					board.printPiece(4, posx, posy, 0);//ê°€ê¸°ì „ì— í°ìƒ‰ìœ¼ë¡œ ì›ìƒ ë³µêµ¬ í›„ ì´ë™
+					if(nowPlayer.move(posx, posy, result)==1) //ì—¬ê¸°ì„œ ì•Œì•„ì„œ ì—…ì–´ê°€ëŠ”ì§€ íŒë‹¨í•´ì¤Œ
+					{//ë“¤ì–´ê°€ê±°ë‚˜ ê²¹ì³ì¡Œì„ë•Œ í™”ë©´ì— í‘œì‹œë¥¼ ì•ˆí•œë‹¤ ì´ê²ƒë•Œë¬¸ì— ìê¾¸ ì˜¤ë¥˜ê°€ ë‚œë‹¤.
+						boardMessage("Player " + turn + " ë§ í•˜ë‚˜ê°€ ì—…í˜”ìŠµë‹ˆë‹¤");
+						// ë§ ê²½ë¡œëŒ€ë¡œ ì´ë™í•¨. ë³´ë“œ ì¢Œí‘œì— ë”°ë¼ ìˆ«ìë¥¼ ë°”ê¿”ì•¼í•  ìˆ˜ë„ ìˆìŒ.
 						if(posx == 0 && posy == 5) {
 							posx = 1;
 							posy = 0;
@@ -203,8 +204,8 @@ public class PlayGame implements ActionListener{
 							}
 						}
 						index = nowPlayer.checkEnable(posx, posy);
-						//ÀÌ ÁöÁ¡¿¡¼­ »ı±â´Â ¹ö±×: ¸» A°¡ ÀÌµ¿ÇØ ¸» B À§¿¡ ¾÷Çû´Ù. ±×·³ ¸» B point += ¸» A point ÇÏ°í ¸» A °´Ã¼ »èÁ¦
-						//¸» A°¡ »èÁ¦µÇ¾úÀ¸´Ï piece(==¸»)ÀÇ ArraylistÀÇ index¿¡ ¸»ÀÌ ¾ø¾î¼­ ¹üÀ§ ÀÍ¼Á¼Ç ¶ä ±×·¡¼­ index¸¦ °»½ÅÇØ Áà¾ßÇÔ
+						//ì´ ì§€ì ì—ì„œ ìƒê¸°ëŠ” ë²„ê·¸: ë§ Aê°€ ì´ë™í•´ ë§ B ìœ„ì— ì—…í˜”ë‹¤. ê·¸ëŸ¼ ë§ B point += ë§ A point í•˜ê³  ë§ A ê°ì²´ ì‚­ì œ
+						//ë§ Aê°€ ì‚­ì œë˜ì—ˆìœ¼ë‹ˆ piece(==ë§)ì˜ Arraylistì˜ indexì— ë§ì´ ì—†ì–´ì„œ ë²”ìœ„ ìµì…‰ì…˜ ëœ¸ ê·¸ë˜ì„œ indexë¥¼ ê°±ì‹ í•´ ì¤˜ì•¼í•¨
 						x = nowPlayer.getPieces().get(index).getX();
 						y = nowPlayer.getPieces().get(index).getY();
 						point = nowPlayer.getPieces().get(index).getPoint();
@@ -212,14 +213,14 @@ public class PlayGame implements ActionListener{
 					}
 					else if(nowPlayer.checkPiecein() ==1)
 					{
-						boardMessage("Player "+turn+" ¸» ÇÏ³ª°¡ °ñÀÎÇß½À´Ï´Ù");
+						boardMessage("Player "+turn+" ë§ í•˜ë‚˜ê°€ ê³¨ì¸í–ˆìŠµë‹ˆë‹¤");
 					}
 					else
 					{
 						x = nowPlayer.getPieces().get(index).getX();
 						y = nowPlayer.getPieces().get(index).getY();
 						point = nowPlayer.getPieces().get(index).getPoint();
-						board.printPiece(turn,x,y,point);//ÇÃ·¹ÀÌ¾î, ÀÌµ¿ ÀÌÈÄ ÁÂÇ¥
+						board.printPiece(turn,x,y,point);//í”Œë ˆì´ì–´, ì´ë™ ì´í›„ ì¢Œí‘œ
 
 					}
 
@@ -227,35 +228,35 @@ public class PlayGame implements ActionListener{
 						board.setplayerInfo(i, players[i].playerPiece());
 					}
 					
-					phaze2changeBtncolor();//UI ¹öÆ° »ö±ò º¯°æ
-					if(nowPlayer.getPieceNum()<=0 && nowPlayer.getPieces().size()<=0)//´ë±âÁßÀÎ ¸»°ú ÆÇÀ§¿¡ ¸»ÀÌ ¾øÀ¸¸é
+					phaze2changeBtncolor();//UI ë²„íŠ¼ ìƒ‰ê¹” ë³€ê²½
+					if(nowPlayer.getPieceNum()<=0 && nowPlayer.getPieces().size()<=0)//ëŒ€ê¸°ì¤‘ì¸ ë§ê³¼ íŒìœ„ì— ë§ì´ ì—†ìœ¼ë©´
 					{
-						control=-1;//°æ±â Á¾·á
-						System.out.println("°æ±â Á¾·á");
-						NextTurn();//ÇØ´ç ÇÃ·¹ÀÌ¾î ÅÏ Á¾·á
+						control=-1;//ê²½ê¸° ì¢…ë£Œ
+						System.out.println("ê²½ê¸° ì¢…ë£Œ");
+						NextTurn();//í•´ë‹¹ í”Œë ˆì´ì–´ í„´ ì¢…ë£Œ
 					}
-					else//°ÔÀÓÀÌ ³¡³ªÁö ¾Ê¾Ò´Ù¸é (ÀÌ·¸°Ô ÇØ³ö¾ß ÀÚ¹Ù ÀÍ¼Á¼Ç ¾È¶ä)
+					else//ê²Œì„ì´ ëë‚˜ì§€ ì•Šì•˜ë‹¤ë©´ (ì´ë ‡ê²Œ í•´ë†”ì•¼ ìë°” ìµì…‰ì…˜ ì•ˆëœ¸)
 					{
-						if(checkCatch(turn)==1 || result == 4 || result ==5)//´Ù½Ã À· ´øÁö±â Á¶°Ç
+						if(checkCatch(turn)==1 || result == 4 || result ==5)//ë‹¤ì‹œ ìœ· ë˜ì§€ê¸° ì¡°ê±´
 						{
 							control=1;
 							ThrowYut();
 						}
 						else
 						{
-							NextTurn();//ÇØ´ç ÇÃ·¹ÀÌ¾î ÅÏ Á¾·á
+							NextTurn();//í•´ë‹¹ í”Œë ˆì´ì–´ í„´ ì¢…ë£Œ
 						}
 					}
 				}
 				else
 				{
-					boardMessage("¾û¶×ÇÑ ¹öÆ° Å¬¸¯ÇÔ"+posx +" , "+posy);
+					boardMessage("ì—‰ëš±í•œ ë²„íŠ¼ í´ë¦­í•¨"+posx +" , "+posy);
 				}
 			}
 		}
 		else
 		{
-			//¾ÆÁ÷ À·À» ´øÁöÁöµµ ¾Ê¾Ò´Âµ¥ ÆÇ Å¬¸¯ÇÏ¸é ¾Æ¹« µ¿ÀÛ ¾ÈÇÔ
+			//ì•„ì§ ìœ·ì„ ë˜ì§€ì§€ë„ ì•Šì•˜ëŠ”ë° íŒ í´ë¦­í•˜ë©´ ì•„ë¬´ ë™ì‘ ì•ˆí•¨
 		}
 	}
 
@@ -264,8 +265,8 @@ public class PlayGame implements ActionListener{
 		winner = checkFinish();
 		if(winner != -1)
 		{
-			control=5;//¾Æ¹« µ¿ÀÛ ¾ÈÇÔ
-			System.out.println(winner + " ¹øÂ° ÇÃ·¹ÀÌ¾î°¡ ½Â¸®ÇÏ¿´½À´Ï´Ù.");
+			control=5;//ì•„ë¬´ ë™ì‘ ì•ˆí•¨
+			System.out.println(winner + " ë²ˆì§¸ í”Œë ˆì´ì–´ê°€ ìŠ¹ë¦¬í•˜ì˜€ìŠµë‹ˆë‹¤.");
 		}
 		else 
 		{
@@ -274,24 +275,24 @@ public class PlayGame implements ActionListener{
 			{
 				turn =0;
 			}
-			boardMessage("Player " + turn + " Â÷·Ê");
-			boardRefreashFrame();//´ÙÀ½ ÇÃ·¹ÀÌ¾î·Î ³Ñ¾î°¡´Ï±î Piece ±×¸² ¹Ù²ãÁÜ
+			boardMessage("Player " + turn + " ì°¨ë¡€");
+			boardRefreashFrame();//ë‹¤ìŒ í”Œë ˆì´ì–´ë¡œ ë„˜ì–´ê°€ë‹ˆê¹Œ Piece ê·¸ë¦¼ ë°”ê¿”ì¤Œ
 			initBtncolor();
 			control = 1;
 		}
 	}
-	//³¡
+	//ë
 
-	//º¸µå »óÈ²º° ¹öÆ° º¸ÀÌ±â
+	//ë³´ë“œ ìƒí™©ë³„ ë²„íŠ¼ ë³´ì´ê¸°
 	void phaze1changeBtncolor() {
 		board.buttonColor("throwBtnOFF");
-		if(nowPlayer.getPieceNum()>0)//´ë±âÁßÀÎ ¸»ÀÌ ÀÖ´Ù¸é 
+		if(nowPlayer.getPieceNum()>0)//ëŒ€ê¸°ì¤‘ì¸ ë§ì´ ìˆë‹¤ë©´ 
 		{
-			board.buttonColor("newPieceBtnON");//»õ·Î¿î ¸» ¹öÆ° È°¼ºÈ­
+			board.buttonColor("newPieceBtnON");//ìƒˆë¡œìš´ ë§ ë²„íŠ¼ í™œì„±í™”
 		}
-		if(nowPlayer.getPieces().size()>0)//ÆÇ¿¡ ¸»ÀÌ ÀÖ´Ù¸é 
+		if(nowPlayer.getPieces().size()>0)//íŒì— ë§ì´ ìˆë‹¤ë©´ 
 		{
-			board.buttonColor("clickBoardON");//ÆÇ Å¬¸¯ ¹öÆ° È°¼ºÈ­
+			board.buttonColor("clickBoardON");//íŒ í´ë¦­ ë²„íŠ¼ í™œì„±í™”
 		}
 	}
 	
@@ -365,7 +366,7 @@ public class PlayGame implements ActionListener{
 				{
 					result = r;
 				}
-				board.printResult(result);//´øÁø °á°ú È­¸é¿¡ Ãâ·Â
+				board.printResult(result);//ë˜ì§„ ê²°ê³¼ í™”ë©´ì— ì¶œë ¥
 			}
 		}
 	}
