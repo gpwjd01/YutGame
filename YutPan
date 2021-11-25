@@ -1,18 +1,64 @@
+package StreetYut;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class YutPan extends JFrame{
 	public YutPan() {
 		setTitle("스트릿 윷놀이 파이터");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setContentPane(new YutGame());
+		setContentPane(new rspGame());
+		//setContentPane(new YutGame());
 
 		setSize(2000, 1080);
 		setVisible(true);
-
-
+	}
+	
+	class rspGame extends JPanel {
+		private ImageIcon icon = new ImageIcon("rspGame.png");
+		private Image rimg = icon.getImage();
+		
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(rimg, 0, 0, this.getWidth(), this.getHeight(), this);
+		}
 	}
 
+	class crewGame extends JPanel {
+		private ImageIcon icon = new ImageIcon("crewGame.png");
+		private Image rimg = icon.getImage();
+		
+		//public void paintComponent(Graphics g) {
+		//	super.paintComponent(g);
+		//	g.drawImage(rimg, 0, 0, this.getWidth(), this.getHeight(), this);
+		//}/
+		
+		private String[] crew = {"HOOK", "LACHICA", "HollyBang", "PROWDMON", "WANT", "WAYB", "YGX", "CocaNButter"};
+		private ImageIcon[] images = {new ImageIcon("HOOK.jpg"), new ImageIcon("LACHICA.jpg"), new ImageIcon("HollyBang.jpg"), 
+				new ImageIcon("PROWDMON.jpg"), new ImageIcon("WANT.jpg"), new ImageIcon("WAYB.jpg"), new ImageIcon("YGX.jpg"), new ImageIcon("CocanButter.jpg")
+		};
+		private JLabel imgLabel = new JLabel(images[0]); // 이미지를 출력할 레이블
+		
+		public crewGame() {
+			setTitle("스트릿 윷놀이 파이터 - 크루 선택");
+			Container c = getContentPane();
+			c.setLayout(new FlowLayout());
+			JComboBox<String> combo = new JComboBox<String> (crew);	// 콤보박스 생성
+			c.add(combo);
+			c.add(imgLabel);
+			
+			//
+			combo.addActionListener(new ActionListener() {
+				public void actionPerformed<String> (ActionEvent e) {
+					JComboBox<String> cb = (JComboBox<String>)e.getSource();
+					int index = cb.getSelectedIndex();
+					imgLabel.setIcon(images[index]);
+				}
+			});
+		}
+	}
+	
 	class YutGame extends JPanel {
 		private ImageIcon icon = new ImageIcon("yutPan.png");
 		private Image img = icon.getImage();
