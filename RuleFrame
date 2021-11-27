@@ -1,0 +1,29 @@
+//기존 메인 화면에서 추가적인 창을 띄워 룰을 보여주는 부분입니다.
+//패키지 같은 부분도 합칠때 옆에서 말씀 드리겠습니다. 일단 내용을 더 중시해서 올렸습니다.
+
+package YUT;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class RuleFrame extends JFrame {
+
+    public RuleFrame() {
+        setTitle("룰 페이지");
+        setContentPane(new RulePan());
+
+        setSize(1000, 800);
+        setVisible(true);
+    }
+    class RulePan extends JPanel {
+        private ImageIcon icon = new ImageIcon("rule.jpg");
+        private Image img = icon.getImage();
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+        }
+    }
+}
