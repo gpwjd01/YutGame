@@ -4,34 +4,36 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PlayStreetYoot implements ActionListener{
-	private Player []players;
-	private YootPan yootPan;
-	private int pieceNum;
-	private int playerNum;
-	private int firstTurn=0;
-	private int gameWinner=-1;
-	private int gameResult=0;
-	private Player nowPlayer;
-	private int situation=1;
+	private Player []players; //player 객체 배열
+	private YootPan yootPan; // 윷놀이 판
+	private int pieceNum; // 말의 개수
+	private int playerNum = 2; // 상수 2로 고정되어있지만 편의를 위해 변수로 지정함. player 명 수
+	private int firstTurn = 0;//처음에는 선공권으로 활용되고, 나중에는 순서를 가르키는 변수
+	private int gameWinner = -1; // 총 게임 승자 ID 
+	private int yootResult = 0; // 윷 결과
+	private Player nowPlayer; // 현재 진행하고 있는 플레이어를 담는 객체
+	private int situation = 1; // 윷 던지기, 새로운 말 판에 놓기, 기존의 말 옮기기와 같은 세가지 상황을 결정하는 변수
 	
-	PlayStreetYoot(int people, int mal)
+	/**/
+	
+	PlayStreetYoot(int mal)
 	{
-		players = new Player[people];
-		for(int i=0;i<people;i++)
+		players = new Player[2];
+		for(int i=0;i<2;i++)
 		{
 			players[i] = new Player(i,mal);
 		}
-		playerNum = people;
 		pieceNum = mal;
-		yootPan = new YootPan(this);//yotboard에서 버튼이 클릭 되었다는 정보를 받기위해 본인 객체를 보냄
+		yootPan = new YootPan(this);//윷판을 생성함.
 		
 		for(int i=0; i<playerNum; i++) {
 			yootPan.setplayerInfo(i, players[i].playerPiece());
+			//** yootPan에서 미니 게임 결과와 크루 선정의 정보를 이 메소드를 통해 저장해줘야 될 듯함.
 		}
 	}
 	
 	public int getPlayerNum() {
-		return playerNum;
+		return playerNum; 
 	}
 	
 	int checkEnd()
@@ -41,81 +43,93 @@ public class PlayStreetYoot implements ActionListener{
 			if(players[i].getArrivePiece() == pieceNum)
 			{
 				players = null;
-				yootPan.finishMessage(i);
-				return i;//i번째 플레이어 승리
+				yootPan.finishMessage(i); //** 마지막 게임 승자 결과 출력하는 메소드 구현해야 함.
+				return i;// 승리 플레이어의 넘버
 			}
 		}
-		return -1;//게임 아직 안끝남
+		return -1;
 	}
 	
-	int checkCatch(int index)//지금 플레이어 인덱스값
+	int checkCatch(int index)  
 	{
-		Player catcher = players[index];//catcher는 지금의 플레이어
+		Player catcher = players[index]; //catcher는 지금의 플레이어
 		int posx,posy;
-		for(int q=0;q<catcher.getPieces().size();q++)//현재 플레이어의 모든 말
-		{
-			posx = catcher.getPieces().get(q).getX();
-			posy = catcher.getPieces().get(q).getY();//현재 플레이어의 q번째 말 위치
-			for(int i=0;i<players.length;i++)
-			{
-				if(i!=index)
+		
+		int i = 0;
+		while(i < catcher.getPieces().size()){
+			posx = catcher.getPieces().get(i).getX();
+			posy = catcher.getPieces().get(i).getY(); //플레이어의 i번째 말 위치
+			
+			int j = 0;
+			while(j < players.length) {
+				if(j != index)
 				{
-					if(players[i].checkCatch(posx,posy)==1)//i번째 Player의 말들과 비교해서 같으면 없앰
+					if(players[j].checkCatch(posx,posy) == 1) //i번째 Player의 말들과 비교해서 같으면 없앰
 					{
-						yootPan.message("P"+index+"가 P"+i+"의 말을 잡았다");
-						return 1;//한칸에 서로 다른 플레이어의 말이 겹쳐있지 않으므로 그냥 만나자 마자 종료
+						yootPan.message("Player" + index + "가 Player" + j + "의 말을 잡았다"); //** gui message
+						return 1; //한칸에 서로 다른 플레이어의 말이 겹쳐있지 않으므로 그냥 만나자 마자 종료
 					}
 				}
+				j++;
 			}
+			i++;
 		}
 		return 0;
 	}
+
+
 	
 
-	void throwYut()
+	void throwYoot() // 윷 던지기 메소드
 	{
-		if(situation==1) {
-			gameResult =0;
+		if(situation == 1) {
+			yootResult = 0;
 			nowPlayer = players[firstTurn];
-			if(nowPlayer.getPieces().size()==0 && nowPlayer.getRestPiece()>0) {//판위에 말이 없고 대기중인 말이 있다면 0,0에 새로 만들고
-				boardMessage("판 위에 올라가 있는 말 없음");
+			if(nowPlayer.getPieces().size() == 0 && nowPlayer.getRestPiece()>0) {
+				// 판 위에 말이 없는 경우이므로, 시작점에 말 생성함
+				boardMessage("시작점(0,0)에 말 생성");
 			}
 			else
 			{
 				boardMessage("");
 			}
-			yootPan.changePlayer(firstTurn);
-			gameResult=Yoot.throwing();//던지기 버튼 클릭
-			yootPan.printResult(gameResult);//던진 결과 화면에 출력
-			phaze1changeBtncolor();//UI 버튼 색깔 변경
+			yootPan.changePlayer(firstTurn); //**gui 측면에서 firstTurn에 따른 player 색? gui적 요소 변환
+			yootResult=Yoot.throwing();
+			yootPan.printResult(yootResult);//던진 결과 화면에 출력
 			
-			for(int i=0; i<playerNum; i++) {
-				yootPan.setplayerInfo(i, players[i].playerPiece());
+			int i = 0;
+			while(i < playerNum) {
+				yootPan.setplayerInfo(i, players[i].playerPiece()); //** 플레이어 정보 출력하기 위한 넘김입니다. 이것도 gui 필요 없으면 삭제해도 돼용
+				i++;
 			}
 
 			situation = 3;
 		}
 	}
 	
-	void putPiece()
+	void putPiece() // 판 위에 말 생성하는 메소드
 	{
 		if(situation==2)
 		{
-			//말이 있으면 Player에서 알아서 찾고 도개걸 결과로 이동함
 			if(nowPlayer.createPiece()==1) //대기중인 말의 수가 있다면 새로 생성 가능
 			{
-				nowPlayer.move(0, 0, gameResult); //여기서 알아서 업어가는지 판단해줌
+				//
+				nowPlayer.move(0, 0, yootResult);
 				
-				for(int i=0; i<playerNum; i++) {
+				int i = 0;
+				while(i<playerNum) {
 					yootPan.setplayerInfo(i, players[i].playerPiece());
+					i++;
 				}
-				
-				yootPan.printPiece(firstTurn,0,gameResult,nowPlayer.getPieceCarryNum(0,gameResult));//플레이어, 이동 이후 좌표
-				phaze2changeBtncolor();//UI 버튼 색깔 변경
-				if(checkCatch(firstTurn)==1 || gameResult == 4 || gameResult ==5)//다시 윷 던지기 조건
+
+				//**gui
+				yootPan.printPiece(firstTurn,0,yootResult,nowPlayer.getPieceCarryNum(0,yootResult));//**gui 측면에서 플레이어, 이동 이후 좌표 출력
+				phaze2changeBtncolor();
+				//
+				if(checkCatch(firstTurn)==1 || yootResult == 4 || yootResult ==5)//말을 잡았거나, 윷의 result가 윷 또는 모일 때, 다시 윷을 던진다.
 				{
 					situation=1;
-					throwYut();
+					throwYoot();
 				}
 				else
 				{
@@ -125,12 +139,12 @@ public class PlayStreetYoot implements ActionListener{
 			else
 			{
 				boardMessage("더 이상 말을 생성 할 수 없습니다.");
-				situation=3;//말 생성 한도를 넘어가면 phaze3Pieceact가 작동 할 수 있도록 한다.
+				situation=3;//말 생성 한도를 넘어가면 말 이동만 가능하도록 하며, 더이상 판 위에 말을 올릴 수 없도록 한다.
 			}
 		}
 	}
 	
-	void pieceMove(int posx, int posy)
+	void pieceMove(int posx, int posy) // 말 옮기기 메소드
 	{
 		int index;
 		int x,y,point;
@@ -149,7 +163,7 @@ public class PlayStreetYoot implements ActionListener{
 				{
 					//말이 있으면 Player에서 알아서 찾고 도개걸 결과로 이동함
 					yootPan.printPiece(4, posx, posy, 0);//가기전에 흰색으로 원상 복구 후 이동
-					if(nowPlayer.move(posx, posy, gameResult)==1) //여기서 알아서 업어가는지 판단해줌
+					if(nowPlayer.move(posx, posy, yootResult)==1) //여기서 알아서 업어가는지 판단해줌
 					{//들어가거나 겹쳐졌을때 화면에 표시를 안한다 이것때문에 자꾸 오류가 난다.
 						boardMessage("P "+firstTurn+" 말 하나가 업혔습니다");
 						if(posx == 0 && posy == 5) {
@@ -160,8 +174,8 @@ public class PlayStreetYoot implements ActionListener{
 							posx=2;
 							posy=0;
 						}
-						posy=posy+gameResult;
-						if(gameResult > 0) {
+						posy=posy+yootResult;
+						if(yootResult > 0) {
 							if(posx == 1 && posy==3)
 							{
 								posx=2;
@@ -190,11 +204,9 @@ public class PlayStreetYoot implements ActionListener{
 							}
 						}
 						index = nowPlayer.checkExist(posx, posy);
-						//이 지점에서 생기는 버그: 말 A가 이동해 말 B 위에 업혔다. 그럼 말 B point += 말 A point 하고 말 A 객체 삭제
-						//말 A가 삭제되었으니 piece(==말)의 Arraylist의 index에 말이 없어서 범위 익셉션 뜸 그래서 index를 갱신해 줘야함
 						x = nowPlayer.getPieces().get(index).getX();
 						y = nowPlayer.getPieces().get(index).getY();
-						point = nowPlayer.getPieces().get(index).getPoint();
+						point = nowPlayer.getPieces().get(index).getCarryNum();
 						yootPan.printPiece(firstTurn,x,y,point);
 					}
 					else if(nowPlayer.checkPieceIn() ==1)
@@ -205,28 +217,30 @@ public class PlayStreetYoot implements ActionListener{
 					{
 						x = nowPlayer.getPieces().get(index).getX();
 						y = nowPlayer.getPieces().get(index).getY();
-						point = nowPlayer.getPieces().get(index).getPoint();
-						yootPan.printPiece(firstTurn,x,y,point);//플레이어, 이동 이후 좌표
+						point = nowPlayer.getPieces().get(index).getCarryNum();
+						yootPan.printPiece(firstTurn,x,y,point);//플레이어, 이동 이후 좌표 출력함.
 
 					}
 
-					for(int i=0; i<playerNum; i++) {
+					int i = 0;
+					while(i < playerNum) {
 						yootPan.setplayerInfo(i, players[i].playerPiece());
+						i++;
 					}
 					
-					phaze2changeBtncolor();//UI 버튼 색깔 변경
+					phaze2changeBtncolor();//** UI 버튼 색깔 변경
 					if(nowPlayer.getRestPiece()<=0 && nowPlayer.getPieces().size()<=0)//대기중인 말과 판위에 말이 없으면
 					{
 						situation=-1;//경기 종료
 						System.out.println("경기 종료");
 						nextTurn();//해당 플레이어 턴 종료
 					}
-					else//게임이 끝나지 않았다면 (이렇게 해놔야 자바 익셉션 안뜸)
+					else
 					{
-						if(checkCatch(firstTurn)==1 || gameResult == 4 || gameResult ==5)//다시 윷 던지기 조건
+						if(checkCatch(firstTurn)==1 || yootResult == 4 || yootResult ==5)//다시 윷 던지기 조건
 						{
 							situation=1;
-							throwYut();
+							throwYoot();
 						}
 						else
 						{
@@ -242,7 +256,6 @@ public class PlayStreetYoot implements ActionListener{
 		}
 		else
 		{
-			//아직 윷을 던지지도 않았는데 판 클릭하면 아무 동작 안함
 		}
 	}
 
@@ -257,16 +270,17 @@ public class PlayStreetYoot implements ActionListener{
 		else 
 		{
 			firstTurn++;
-			if(firstTurn >= playerNum)
-			{
-				firstTurn =0;
-			}
+			firstTurn = firstTurn % 2; //0,1을 번갈아가면서 반환함
+			
+			//** Turn을 바꿔줄때 GUI 추
 			boardMessage("P "+firstTurn+" 차례");
 			boardRefreashFrame();//다음 플레이어로 넘어가니까 Piece 그림 바꿔줌
 			initBtncolor();
 			situation = 1;
 		}
 	}
+	
+	
 	
 	//GUI 쪽 코드 이는 엮을 때 변경 필요함.
 	//******************************************************************
@@ -320,7 +334,7 @@ public class PlayStreetYoot implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==yootPan.throwButton && situation == 1)
 		{
-			throwYut();
+			throwYoot();
 		}
 		if(e.getSource()==yootPan.newPiece && situation == 3)
 		{
@@ -351,17 +365,17 @@ public class PlayStreetYoot implements ActionListener{
 		{
 			if(e.getSource()==yootPan.testButton[r] && situation == 1)
 			{
-				throwYut();
+				throwYoot();
 				r--;
 				if(r==0)
 				{
-					gameResult = 5;
+					yootResult = 5;
 				}
 				else
 				{
-					gameResult = r;
+					yootResult = r;
 				}
-				yootPan.printResult(gameResult);//던진 결과 화면에 출력
+				yootPan.printResult(yootResult);//던진 결과 화면에 출력
 			}
 		}
 	}
