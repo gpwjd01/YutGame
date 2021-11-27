@@ -78,7 +78,8 @@ public class Player {
 	public int move(int x, int y, int active) { 	
 		if(pieces.size() != 0){
 			for(Piece piece : pieces){
-				if(piece.getX() == x && piece.getY() == y) // (말 위치에 있는 말을 찾고 도개걸윷 만큼 이동시킴)
+				// 말 위치에 있는 말을 찾고 도개걸윷모 만큼 이동시킴
+				if(piece.getX() == x && piece.getY() == y) 
 					piece.setPosition(active);
 			}
 			return checkCarry();
