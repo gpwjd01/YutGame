@@ -7,8 +7,8 @@ public class Player {
 	private ArrayList<Piece> pieces; // 플레이어의 말 객체
 	private int arrivePiece; // 들어온 말의 수 
 	private int restPiece; // 대기 중인 말의 수 
-	public Player(int id, int restPiece){
-		this.playerID = id;
+	public Player(int playerID, int restPiece){
+		this.playerID = playerID;
 		this.pieces = new ArrayList<Piece>();
 		this.arrivePiece = 0; 
 		this.restPiece = restPiece; 
@@ -70,7 +70,7 @@ public class Player {
 	}
 	
 	public String playerPiece(){
-		String s="";
+		String s = "";
 		s = "남은 말:" + restPiece + " 들어온 말:" + arrivePiece; 
 		return s;
 	}
