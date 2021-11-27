@@ -1,0 +1,111 @@
+//gui쪽은 몰랐던 부분도 많고 그래서 클래스명이나 수가 많이 변동되었어요ㅠㅠ 
+//합칠때 옆에서 말씀 드릴테니 클래스 명이나 변수명 바뀐거는 조금 감안해주시면 감사하겠습니다.
+
+package YUT;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class YUUTGAME extends JFrame {
+    public YUUTGAME() {
+        setTitle("대문페이지");
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setContentPane(new MyPanel());
+
+        setSize(1000, 800);
+        setVisible(true);
+
+        // ================================ 버튼 ===================================
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+
+        // 3 개의 이미지를 읽어들인다.
+        ImageIcon startIcon = new ImageIcon("Buttonstart.png");
+        ImageIcon ruleIcon = new ImageIcon("ButtonRule.png");
+        ImageIcon quitIcon = new ImageIcon("ButtonOut.png");
+
+        // 3개의 아이콘을 가진 버튼 컴포넌트 생성
+        JButton btn = new JButton(startIcon); //게임 시작
+        JButton btn2 = new JButton(ruleIcon); //게임 룰
+        JButton btn3 = new JButton(quitIcon); //나가기
+
+
+        // 3개의 버튼 삽입
+        c.add(btn);
+        c.add(btn2);
+        c.add(btn3);
+
+        // 3개의 버튼 외곽선 삭제
+        btn.setBorderPainted(false);
+        btn2.setBorderPainted(false);
+        btn3.setBorderPainted(false);
+
+        // 버튼 배경 흰색으로 교체
+        btn.setBackground(Color.white);
+        btn2.setBackground(Color.white);
+        btn3.setBackground(Color.white);
+
+        // 3개의 버튼 배경 투명하게
+        btn.setOpaque(false);//투명하게
+        btn2.setOpaque(false);//투명하게
+        btn3.setOpaque(false);//투명하게
+
+        c.setLayout(null);
+
+        // 버튼 위치와 크기 설정
+
+        btn.setBounds(800, 600, 369, 90);
+        btn2.setBounds(800, 700, 369, 90);
+        btn3.setBounds(800, 800, 369, 90);
+
+        setVisible(true);
+
+        btn.addActionListener(new ActionListener() { //게임 시작 버튼이 눌렸을때
+            @Override
+            public void actionPerformed(ActionEvent e){
+                dispose(); //이전 창(대문 페이지) 닫음
+                new YutPanel(); //YutPanel이 새로 생김
+            }
+        });
+
+        btn2.addActionListener(new ActionListener() { //게임 룰 버튼이 눌렸을때
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new RuleFrame(); //RuleFrame이 새로 생김
+            }
+        });
+
+
+        btn3.addActionListener(new ActionListener() { //나가기 버튼이 눌렸을때
+            public void actionPerformed(ActionEvent arg0) {
+                System.exit(0); //나가짐
+            }
+        });
+        btn3.setBounds(800, 800, 369, 90); //버튼 위치 재 정의(바뀌어서 다시 설정함)
+        getContentPane().add(btn3); // 설정한거 다시 지정해주기
+
+        setVisible(true);
+
+
+    }
+
+    class MyPanel extends JPanel {
+        private ImageIcon icon = new ImageIcon("firstpageshot.png");
+        private Image img = icon.getImage();
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+        }
+    }
+
+
+
+
+}
+
+
