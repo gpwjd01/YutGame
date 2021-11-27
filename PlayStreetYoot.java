@@ -31,7 +31,6 @@ public class PlayStreetYoot implements ActionListener{
 	}
 	
 	public int getPlayerNum() {
-		
 		return playerNum;
 	}
 	
@@ -39,7 +38,7 @@ public class PlayStreetYoot implements ActionListener{
 	{
 		for(int i=0;i<players.length;i++)
 		{
-			if(players[i].getPoint() == pieceNum)
+			if(players[i].getArrivePiece() == pieceNum)
 			{
 				players = null;
 				yootPan.finishMessage(i);
@@ -48,6 +47,7 @@ public class PlayStreetYoot implements ActionListener{
 		}
 		return -1;//게임 아직 안끝남
 	}
+	
 	int checkCatch(int index)//지금 플레이어 인덱스값
 	{
 		Player catcher = players[index];//catcher는 지금의 플레이어
@@ -77,7 +77,7 @@ public class PlayStreetYoot implements ActionListener{
 		if(situation==1) {
 			gameResult =0;
 			nowPlayer = players[firstTurn];
-			if(nowPlayer.getPieces().size()==0 && nowPlayer.getPieceNum()>0) {//판위에 말이 없고 대기중인 말이 있다면 0,0에 새로 만들고
+			if(nowPlayer.getPieces().size()==0 && nowPlayer.getRestPiece()>0) {//판위에 말이 없고 대기중인 말이 있다면 0,0에 새로 만들고
 				boardMessage("판 위에 올라가 있는 말 없음");
 			}
 			else
@@ -110,7 +110,7 @@ public class PlayStreetYoot implements ActionListener{
 					yootPan.setplayerInfo(i, players[i].playerPiece());
 				}
 				
-				yootPan.printPiece(firstTurn,0,gameResult,nowPlayer.getPieceUpdaNum(0,gameResult));//플레이어, 이동 이후 좌표
+				yootPan.printPiece(firstTurn,0,gameResult,nowPlayer.getPieceCarryNum(0,gameResult));//플레이어, 이동 이후 좌표
 				phaze2changeBtncolor();//UI 버튼 색깔 변경
 				if(checkCatch(firstTurn)==1 || gameResult == 4 || gameResult ==5)//다시 윷 던지기 조건
 				{
@@ -137,14 +137,14 @@ public class PlayStreetYoot implements ActionListener{
 		
 		if(situation==3)
 		{// if(지금 플레이어가 판 위에 올려 놓은 말의 갯수가 0 && 지금 플레이어의 남은 말 0 이상(남은 말=전체 말 - 골인한 말))
-			if(nowPlayer.getPieces().size()==0 && nowPlayer.getPieceNum()>0)//판위에 말이 없고 대기중인 말이 있다면 0,0에 새로 만들고
+			if(nowPlayer.getPieces().size()==0 && nowPlayer.getRestPiece()>0)//판위에 말이 없고 대기중인 말이 있다면 0,0에 새로 만들고
 			{
 				situation=2;
 				putPiece();
 			}
 			else
 			{
-				index = nowPlayer.checkEnable(posx, posy);//해당 버튼에 말이 있는지 확인 있으면 말 배열에 인덱스 반환
+				index = nowPlayer.checkExist(posx, posy);//해당 버튼에 말이 있는지 확인 있으면 말 배열에 인덱스 반환
 				if(index!=-1)
 				{
 					//말이 있으면 Player에서 알아서 찾고 도개걸 결과로 이동함
@@ -189,7 +189,7 @@ public class PlayStreetYoot implements ActionListener{
 								posy=20+posy;
 							}
 						}
-						index = nowPlayer.checkEnable(posx, posy);
+						index = nowPlayer.checkExist(posx, posy);
 						//이 지점에서 생기는 버그: 말 A가 이동해 말 B 위에 업혔다. 그럼 말 B point += 말 A point 하고 말 A 객체 삭제
 						//말 A가 삭제되었으니 piece(==말)의 Arraylist의 index에 말이 없어서 범위 익셉션 뜸 그래서 index를 갱신해 줘야함
 						x = nowPlayer.getPieces().get(index).getX();
@@ -197,7 +197,7 @@ public class PlayStreetYoot implements ActionListener{
 						point = nowPlayer.getPieces().get(index).getPoint();
 						yootPan.printPiece(firstTurn,x,y,point);
 					}
-					else if(nowPlayer.checkPiecein() ==1)
+					else if(nowPlayer.checkPieceIn() ==1)
 					{
 						boardMessage("P "+firstTurn+" 말 하나가 골인했습니다");
 					}
@@ -215,7 +215,7 @@ public class PlayStreetYoot implements ActionListener{
 					}
 					
 					phaze2changeBtncolor();//UI 버튼 색깔 변경
-					if(nowPlayer.getPieceNum()<=0 && nowPlayer.getPieces().size()<=0)//대기중인 말과 판위에 말이 없으면
+					if(nowPlayer.getRestPiece()<=0 && nowPlayer.getPieces().size()<=0)//대기중인 말과 판위에 말이 없으면
 					{
 						situation=-1;//경기 종료
 						System.out.println("경기 종료");
@@ -269,6 +269,8 @@ public class PlayStreetYoot implements ActionListener{
 	}
 	
 	//GUI 쪽 코드 이는 엮을 때 변경 필요함.
+	//******************************************************************
+	
 	void boardMessage(String s) {
 		yootPan.message(s);
 	}
@@ -279,7 +281,7 @@ public class PlayStreetYoot implements ActionListener{
 	
 	void phaze1changeBtncolor() {
 		yootPan.buttonColor("throwBtnOFF");
-		if(nowPlayer.getPieceNum()>0)//대기중인 말이 있다면 
+		if(nowPlayer.getRestPiece()>0)//대기중인 말이 있다면 
 		{
 			yootPan.buttonColor("newPieceBtnON");//새로운 말 버튼 활성화
 		}
@@ -298,7 +300,7 @@ public class PlayStreetYoot implements ActionListener{
 		{
 			yootPan.buttonColor("clickBoardOFF");
 		}
-		if(nowPlayer.getPieceNum()>0)
+		if(nowPlayer.getRestPiece()>0)
 		{
 			yootPan.buttonColor("newPieceBtnON");
 		}
@@ -363,3 +365,4 @@ public class PlayStreetYoot implements ActionListener{
 			}
 		}
 	}
+}
