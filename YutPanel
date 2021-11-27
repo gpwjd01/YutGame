@@ -1,0 +1,31 @@
+//패키지 명은 아직 못바꿨는데 시연이 합칠때 같이 도와가며 하겠습니다
+//그때 패키지명도 같이 바꿀게요
+
+package YUT;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class YutPanel extends JFrame {
+    public YutPanel() {
+        setTitle("윷 페이지");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setContentPane(new YutPan());
+
+        setSize(1000, 800);
+        setVisible(true);
+
+
+    }
+
+    class YutPan extends JPanel {
+        private ImageIcon icon = new ImageIcon("yutPan.png");
+        private Image img = icon.getImage();
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+        }
+    }
+}
