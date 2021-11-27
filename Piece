@@ -2,12 +2,12 @@ package StreetYut;
 
 public class Piece {
 	private int x,y;
-	private int updaNum;  // 업힌 말의 개수
+	private int carryNum;  // 업힌 말의 개수
 	
 	public Piece(){
 		this.x=0;
 		this.y=0;
-		this.updaNum =1;
+		this.carryNum =1;
 	}
 	
 	public int getX(){
@@ -18,20 +18,20 @@ public class Piece {
 		return this.y;
 	}
 	
-	public int getPoint(){
-		return updaNum;
+	public int getCarryNum(){
+		return carryNum;
 	}
 	
-	public void setPos(int act){
-		position1(act); 
+	public void setPosition(int act){
+		posCase1(act); 
 		y += act;
-		position2(act); 
+		posCase2(act); 
 	}
-	public void setPoint(int a){
-		updaNum += a; // 업힌 경우 - 업힌 말의 수
+	public void setCarryNum(int a){
+		carryNum += a; // 업힌 경우 - 업힌 말의 수
 	}
 	// 대각선으로 타고 들어올 경우 좌표 변환
-	public void position1(int act){
+	public void posCase1(int act){
 		if(x==0 && y==5) { 
 			x=1;
 			y=0;
@@ -42,7 +42,7 @@ public class Piece {
 		}
 	}
 	// 대각선 내부에서 일어나는 좌표 바꿔주기
-	public void position2(int act){
+	public void posCase2(int act){
 		if(act>0){
 			if(x==1 && y==3){ x=2; y=3; }
 			else if(x==1 && y>5){ x=0; y+=9; }
