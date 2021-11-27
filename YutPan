@@ -3,7 +3,7 @@ package StreetYut;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+//나중에 객체로 받아야해서 yutpan 생성자 필요합니당! - 승현
 public class YutPan extends JFrame{
 	public YutPan() {
 		setTitle("스트릿 윷놀이 파이터");
