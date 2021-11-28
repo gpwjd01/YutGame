@@ -1,4 +1,4 @@
-package StreetYut;
+package YUT;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,101 +10,106 @@ import java.awt.event.ItemListener;
 
 
 public class CrewReady extends JFrame {
-	// {"HOOK", "LACHICA", "HollyBang", "PROWDMON", "WANT", "WAYB", "YGX", "CocaNButter"} 의 순서로 CREW 저장
-	public int CREW = 0; 
-	public static final int HO = 1;
-	public static final int LA = 2;
-	public static final int HOLLY = 3;
-	public static final int PROWD = 4;
-	public static final int WAN = 5;
-	public static final int WAY = 6;
-	public static final int YX = 7;
-	public static final int CNB = 8;
-	
-	private String[] crew = {"HOOK", "LACHICA", "HollyBang", "PROWDMON", "WANT", "WAYB", "YGX", "CocaNButter"};
-	private ImageIcon[] images = {new ImageIcon("HOOK.jpg"), new ImageIcon("LACHICA.jpg"), new ImageIcon("HollyBang.jpg"), 
-			new ImageIcon("PROWDMON.jpg"), new ImageIcon("WANT.jpg"), new ImageIcon("WAYB.jpg"), new ImageIcon("YGX.jpg"), new ImageIcon("CocanButter.jpg")
-	};
-	private JLabel imgLabel = new JLabel(images[0]); // 이미지를 출력할 레이블
-	
-	CrewReady() {
-		setTitle("스트릿 윷놀이 파이터 - 크루 선택");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container c = getContentPane();
-		c.setLayout(new FlowLayout());
-		
-		JComboBox Combo = new JComboBox(crew);	// 콤보박스 생성
-		Combo.setBounds(100,100,150,30);
-		c.add(Combo);
-		c.add(imgLabel);
-		
-		// ================================버튼========================
-		c.setLayout(new FlowLayout());
-		
-		ImageIcon chooseIcon = new ImageIcon("gameChoose.png");
-		JButton cbtn = new JButton(chooseIcon);
-		c.add(cbtn);
-		cbtn.setBorderPainted(false);
-		cbtn.setBackground(Color.white);
-		cbtn.setBounds(1000, 600, 369, 90);
-		
-		// ===================== 콤보박스 실행 ==========================
-		Combo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JComboBox<String> cb = (JComboBox<String>)e.getSource();
-				int index = cb.getSelectedIndex();
-				imgLabel.setIcon(images[index]);
-				System.out.println(Combo.getSelectedItem());
-				String crew = ((String)Combo.getSelectedItem());
-				System.out.println(crew);
-				switch (crew) {
-				case "HOOK":
-					CREW = 0; 
-					//System.out.println(CREW);
-					break;
-				case "LACHICA":
-					CREW = 1;
-					//System.out.println(CREW);
-					break;
-				case "HollyBang":
-					CREW = 2;
-					//System.out.println(CREW);
-					break;
-				case "PROWDMON" :
-					CREW = 3;
-					//System.out.println(CREW);
-					break;
-				case "WANT" :
-					CREW = 4;
-					//System.out.println(CREW);
-					break;
-				case "WAYB" :
-					CREW = 5;
-					//System.out.println(CREW);
-					break;
-				case "YGX" :
-					CREW = 6;
-					//System.out.println(CREW);
-					break;
-				case "CocaNButter" :
-					CREW = 7;
-					//System.out.println(CREW);
-					break;
-				}
-				System.out.println(CREW);
-			}
-		});
-		setSize(2020,1080);
-		setVisible(true);
-		
-		cbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				System.out.println(CREW);
-			}
-		});
-	}
-	public static void main(String[] args) {
-		new CrewReady();
-	}
+    // {"HOOK", "LACHICA", "HollyBang", "PROWDMON", "WANT", "WAYB", "YGX", "CocaNButter"} 의 순서로 CREW 저장
+    public int CREW = 0;
+    public static final int HO = 1;
+    public static final int LA = 2;
+    public static final int HOLLY = 3;
+    public static final int PROWD = 4;
+    public static final int WAN = 5;
+    public static final int WAY = 6;
+    public static final int YX = 7;
+    public static final int CNB = 8;
+
+    private String[] crew = {"HOOK", "LACHICA", "HollyBang", "PROWDMON", "WANT", "WAYB", "YGX", "CocaNButter"};
+    private ImageIcon[] images = {new ImageIcon("HOOK.jpg"), new ImageIcon("LACHICA.jpg"), new ImageIcon("HollyBang.jpg"),
+            new ImageIcon("PROWDMON.jpg"), new ImageIcon("WANT.jpg"), new ImageIcon("WAYB.jpg"), new ImageIcon("YGX.jpg"), new ImageIcon("CocanButter.jpg")
+    };
+    private JLabel imgLabel = new JLabel(images[0]); // 이미지를 출력할 레이블
+
+    CrewReady() {
+        setTitle("스트릿 윷놀이 파이터 - 크루 선택");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container c = getContentPane();
+        c.setLayout(new FlowLayout());
+
+        JComboBox Combo = new JComboBox(crew);	// 콤보박스 생성
+        Combo.setBounds(100,100,150,30);
+        c.add(Combo);
+        c.add(imgLabel);
+
+        // ================================버튼========================
+        c.setLayout(new FlowLayout());
+
+        ImageIcon chooseIcon = new ImageIcon("gameChoose.png");
+        JButton cbtn = new JButton(chooseIcon);
+        c.add(cbtn);
+        cbtn.setBorderPainted(false);
+        cbtn.setBackground(Color.white);
+        cbtn.setBounds(1000, 600, 369, 90);
+
+        // ===================== 콤보박스 실행 ==========================
+        Combo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> cb = (JComboBox<String>)e.getSource();
+                int index = cb.getSelectedIndex();
+                imgLabel.setIcon(images[index]);
+                System.out.println(Combo.getSelectedItem());
+                String crew = ((String)Combo.getSelectedItem());
+                System.out.println(crew);
+                switch (crew) {
+                    case "HOOK":
+                        CREW = 0;
+                        //System.out.println(CREW);
+                        break;
+                    case "LACHICA":
+                        CREW = 1;
+                        //System.out.println(CREW);
+                        break;
+                    case "HollyBang":
+                        CREW = 2;
+                        //System.out.println(CREW);
+                        break;
+                    case "PROWDMON" :
+                        CREW = 3;
+                        //System.out.println(CREW);
+                        break;
+                    case "WANT" :
+                        CREW = 4;
+                        //System.out.println(CREW);
+                        break;
+                    case "WAYB" :
+                        CREW = 5;
+                        //System.out.println(CREW);
+                        break;
+                    case "YGX" :
+                        CREW = 6;
+                        //System.out.println(CREW);
+                        break;
+                    case "CocaNButter" :
+                        CREW = 7;
+                        //System.out.println(CREW);
+                        break;
+                }
+                System.out.println(CREW);
+            }
+        });
+        setSize(2020,1080);
+        setVisible(true);
+
+        cbtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                System.out.println(CREW);
+            }
+        });
+    }
+
+    int getCREW() {
+        return CREW;
+    }
+
+    public static void main(String[] args) {
+        new CrewReady();
+    }
 }
