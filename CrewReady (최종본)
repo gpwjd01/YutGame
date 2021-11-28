@@ -10,7 +10,8 @@ import java.awt.event.ItemListener;
 
 
 public class CrewReady extends JFrame {
-	public int CREW = 0;
+	// {"HOOK", "LACHICA", "HollyBang", "PROWDMON", "WANT", "WAYB", "YGX", "CocaNButter"} 의 순서로 CREW 저장
+	public int CREW = 0; 
 	public static final int HO = 1;
 	public static final int LA = 2;
 	public static final int HOLLY = 3;
@@ -26,7 +27,7 @@ public class CrewReady extends JFrame {
 	};
 	private JLabel imgLabel = new JLabel(images[0]); // 이미지를 출력할 레이블
 	
-	YootReady() {
+	CrewReady() {
 		setTitle("스트릿 윷놀이 파이터 - 크루 선택");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container c = getContentPane();
@@ -104,6 +105,6 @@ public class CrewReady extends JFrame {
 		});
 	}
 	public static void main(String[] args) {
-		new YootReady();
+		new CrewReady();
 	}
 }
