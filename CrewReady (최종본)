@@ -53,36 +53,47 @@ public class CrewReady extends JFrame {
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				int index = cb.getSelectedIndex();
 				imgLabel.setIcon(images[index]);
-				int crew_index = index;
-				switch (index) {
-				case 0:
-					CREW = 0;
-					//System.out.println("0");
-				case 1:
+				System.out.println(Combo.getSelectedItem());
+				String crew = ((String)Combo.getSelectedItem());
+				System.out.println(crew);
+				switch (crew) {
+				case "HOOK":
+					CREW = 0; 
+					//System.out.println(CREW);
+					break;
+				case "LACHICA":
 					CREW = 1;
-					//System.out.println("1");
-				case 2:
+					//System.out.println(CREW);
+					break;
+				case "HollyBang":
 					CREW = 2;
-					//System.out.println("2");
-				case 3:
+					//System.out.println(CREW);
+					break;
+				case "PROWDMON" :
 					CREW = 3;
-					//System.out.println("3");
-				case 4:
+					//System.out.println(CREW);
+					break;
+				case "WANT" :
 					CREW = 4;
-					//System.out.println("4");
-				case 5:
+					//System.out.println(CREW);
+					break;
+				case "WAYB" :
 					CREW = 5;
-					//System.out.println("5");
-				case 6:
+					//System.out.println(CREW);
+					break;
+				case "YGX" :
 					CREW = 6;
-					//System.out.println("6");
-				case 7:
+					//System.out.println(CREW);
+					break;
+				case "CocaNButter" :
 					CREW = 7;
-					//System.out.println("7");
+					//System.out.println(CREW);
+					break;
 				}
+				System.out.println(CREW);
 			}
 		});
-		setSize(2000,1080);
+		setSize(2020,1080);
 		setVisible(true);
 		
 		cbtn.addActionListener(new ActionListener() {
