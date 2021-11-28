@@ -100,16 +100,24 @@ public class CrewReady extends JFrame {
         cbtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                new YutPanel();
                 System.out.println(CREW);
             }
         });
     }
+    
+    class SetPanel extends JPanel{
+    	private ImageIcon icon = new ImageIcon("back.png");
+    	private Image img = icon.getImage();
+
+    	public void paintComponent(Graphics g){
+    		super.paintComponent(g);
+
+    		g.drawImage(img,0,0,this.getWidth(),this.getHeight(),this);
+    	}
+    }
 
     int getCREW() {
         return CREW;
-    }
-
-    public static void main(String[] args) {
-        new CrewReady();
     }
 }
