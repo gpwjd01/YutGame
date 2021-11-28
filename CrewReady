@@ -1,0 +1,98 @@
+package StreetYut;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
+
+public class CrewReady extends JFrame {
+	public int CREW = 0;
+	public static final int HO = 1;
+	public static final int LA = 2;
+	public static final int HOLLY = 3;
+	public static final int PROWD = 4;
+	public static final int WAN = 5;
+	public static final int WAY = 6;
+	public static final int YX = 7;
+	public static final int CNB = 8;
+	
+	private String[] crew = {"HOOK", "LACHICA", "HollyBang", "PROWDMON", "WANT", "WAYB", "YGX", "CocaNButter"};
+	private ImageIcon[] images = {new ImageIcon("HOOK.jpg"), new ImageIcon("LACHICA.jpg"), new ImageIcon("HollyBang.jpg"), 
+			new ImageIcon("PROWDMON.jpg"), new ImageIcon("WANT.jpg"), new ImageIcon("WAYB.jpg"), new ImageIcon("YGX.jpg"), new ImageIcon("CocanButter.jpg")
+	};
+	private JLabel imgLabel = new JLabel(images[0]); // 이미지를 출력할 레이블
+	
+	YootReady() {
+		setTitle("스트릿 윷놀이 파이터 - 크루 선택");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new FlowLayout());
+		
+		JComboBox Combo = new JComboBox(crew);	// 콤보박스 생성
+		Combo.setBounds(100,100,150,30);
+		c.add(Combo);
+		c.add(imgLabel);
+		
+		// ================================버튼========================
+		c.setLayout(new FlowLayout());
+		
+		ImageIcon chooseIcon = new ImageIcon("gameChoose.png");
+		JButton cbtn = new JButton(chooseIcon);
+		c.add(cbtn);
+		cbtn.setBorderPainted(false);
+		cbtn.setBackground(Color.white);
+		cbtn.setBounds(1000, 600, 369, 90);
+		
+		// ===================== 콤보박스 실행 ==========================
+		Combo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JComboBox<String> cb = (JComboBox<String>)e.getSource();
+				int index = cb.getSelectedIndex();
+				imgLabel.setIcon(images[index]);
+				int crew_index = index;
+				switch (index) {
+				case 0:
+					CREW = 0;
+					//System.out.println("0");
+				case 1:
+					CREW = 1;
+					//System.out.println("1");
+				case 2:
+					CREW = 2;
+					//System.out.println("2");
+				case 3:
+					CREW = 3;
+					//System.out.println("3");
+				case 4:
+					CREW = 4;
+					//System.out.println("4");
+				case 5:
+					CREW = 5;
+					//System.out.println("5");
+				case 6:
+					CREW = 6;
+					//System.out.println("6");
+				case 7:
+					CREW = 7;
+					//System.out.println("7");
+				}
+			}
+		});
+		setSize(2000,1080);
+		setVisible(true);
+		
+		cbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				System.out.println(CREW);
+			}
+		});
+	}
+	public static void main(String[] args) {
+		new YootReady();
+	}
+}
