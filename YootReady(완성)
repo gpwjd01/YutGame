@@ -1,0 +1,142 @@
+package StreetYut;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import StreetYut.YutDoor.MyPanel;
+
+public class YootReady extends JFrame {
+   //JRadioButton malradioButton  // 크루 선택 버튼(라디오 버튼으로)
+   int user_character; // 말(크루) 선정
+   int winner;  // 게임 승리자 플레이어 1: A, 플레이어 2 : B 
+   int rsp_result = 0;
+   private ImageIcon[] images = {new ImageIcon("rsp_result_0.png"), new ImageIcon("rsp_result_1.png"), new ImageIcon("rsp_result_2.png"), 
+		   new ImageIcon("rsp_result_3.png"), new ImageIcon("rsp_result_4.png"), new ImageIcon("rsp_result_5.png"),    };
+   
+
+   //가위바위보 게임
+   public void rspGame() {
+      /*
+       0:A(가위)<B(바위) -> B
+       1:A(가위)>B(보) ->A
+       2:A(바위)>B(가위)->A
+       3:A(바위)<B(보) ->B
+       4:A(보)<B(가위) ->B
+       5:A(보)>B(바위)  ->A 
+       */
+      rsp_result = (int)(Math.random()*6);//0~5 사이의 난수 발생
+      if(rsp_result == 1||rsp_result == 2||rsp_result == 5) winner = 1;
+      else winner = 2;
+   }
+
+   YootReady() {
+	   setTitle("스트릿 윷놀이 파이터 - 가위바위보");
+	   setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// ===============================실행===============================
+	   rspGame();
+	   if (rsp_result == 0) {
+		   setContentPane(new rspPanel_0());
+		   System.out.println(winner);
+	   }
+	   else if (rsp_result == 1) {
+		   setContentPane(new rspPanel_1());
+		   System.out.println(winner);
+	   }
+	   else if (rsp_result == 2) {
+		   setContentPane(new rspPanel_2());
+		   System.out.println(winner);
+	   }
+	   else if (rsp_result == 3) {
+		   setContentPane(new rspPanel_3());
+		   System.out.println(winner);
+	   }
+	   else if (rsp_result == 4) {
+		   setContentPane(new rspPanel_4());
+		   System.out.println(winner);
+	   }
+	   else if (rsp_result == 5) {
+		   setContentPane(new rspPanel_5());
+		   System.out.println(winner);
+	   }
+	   setSize(2000, 1000);
+	   setVisible(true);
+
+	   // ===============================버튼===============================
+	   Container c = getContentPane();
+	   c.setLayout(new FlowLayout());
+
+	   ImageIcon chooseIcon = new ImageIcon("gameCheck.png");
+	   JButton cbtn = new JButton(chooseIcon);
+	   c.add(cbtn);
+	   cbtn.setBorderPainted(false);
+	   cbtn.setBackground(Color.white);
+	   cbtn.setOpaque(false);//투명하게
+	   c.setLayout(null);
+	   cbtn.setBounds(770, 750, 369, 90);
+	   
+	   setVisible(true);
+
+	   cbtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				dispose();
+				// 다음 판으로 이동 여기에서 수정
+			}
+		});
+   }
+
+   class rspPanel_0 extends JPanel {
+		private ImageIcon icon = new ImageIcon("rsp_result_0.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+   class rspPanel_1 extends JPanel {
+		private ImageIcon icon = new ImageIcon("rsp_result_1.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+   class rspPanel_2 extends JPanel {
+		private ImageIcon icon = new ImageIcon("rsp_result_2.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+   class rspPanel_3 extends JPanel {
+		private ImageIcon icon = new ImageIcon("rsp_result_3.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+   class rspPanel_4 extends JPanel {
+		private ImageIcon icon = new ImageIcon("rsp_result_4.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+   class rspPanel_5 extends JPanel {
+		private ImageIcon icon = new ImageIcon("rsp_result_5.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+   public static void main(String [] args) {
+		new YootReady();
+	}
+}
