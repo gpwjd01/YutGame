@@ -1,9 +1,10 @@
+//ìœ·ë ˆë””ì— í¬í•¨ -ì‹œì—°
 package javapro;
 
 public class DiceGame {
 	
 	public static void main(String[] args) {
-		int Winner= 0; //A°¡ ÀÌ±â¸é 1 B°¡ ÀÌ±â¸é 2
+		int Winner= 0; //Aê°€ ì´ê¸°ë©´ 1 Bê°€ ì´ê¸°ë©´ 2
 		
 		while(true){
 			int a = (int)(Math.random()*6+1); // 1~6
@@ -11,19 +12,19 @@ public class DiceGame {
 	
 			if(a>b) {
 				System.out.println("A: "+a+" B: "+b);
-				System.out.println("A°¡ ½Â¸®Çß½À´Ï´Ù! ");
+				System.out.println("Aê°€ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! ");
 				Winner=1;
 				break;
 			}
 			else if(a<b) {
 				System.out.println("A: "+a+" B: "+b);
-				System.out.println("B°¡ ½Â¸®Çß½À´Ï´Ù! ");
+				System.out.println("Bê°€ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! ");
 				Winner=2;
 				break;
 			}
 			else if(a==b) {
 				System.out.println("A: "+a+" B: "+b);
-				System.out.println("ºñ°å½À´Ï´Ù. ");
+				System.out.println("ë¹„ê²¼ìŠµë‹ˆë‹¤. ");
 			}
 
 		}
