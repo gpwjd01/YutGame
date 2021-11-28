@@ -1,0 +1,163 @@
+package StreetYut;
+
+import javax.swing.*;
+
+import StreetYut.RuleFrame.RulePan;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.temporal.JulianFields;
+import java.util.Random;
+
+public class YutPanel extends JFrame {
+	int yut_result = 0;
+	public static final int BackDo = -1;
+	public static final int Do = 1;
+	public static final int Gae = 2;
+	public static final int Geol = 3;
+	public static final int Yut = 4;
+	public static final int Mo = 5;
+	// 윷 던지기
+	public static int throwing() {
+		//확률
+		//도 : 12%, 개 : 34%, 걸 : 34%, 윷 : 13%, 모 : 3%, 백도 : 4%
+		Random rnd = new Random();
+		int result = rnd.nextInt(100);
+		if(result>=0&&result<12) return Do;
+		else if(result>=12&&result<46) return Gae;
+		else if(result>=46&&result<80) return Geol;
+		else if(result>=80&&result<93) return Yut;
+		else if(result>=93&&result<96) return Mo;
+		else return BackDo;
+	}
+	
+    public YutPanel() {
+        setTitle("윷 페이지");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setContentPane(new YutPan());
+        Container c = getContentPane();
+
+        //------------------------버튼---------------------
+
+        c.setLayout(new FlowLayout());
+
+        ImageIcon throwIcon = new ImageIcon("RollYut.jpg");
+        ImageIcon aIcon = new ImageIcon("f_a.png");
+        ImageIcon bIcon = new ImageIcon("f_b.png");
+
+        JButton tbtn = new JButton(throwIcon);
+        JButton a1 = new JButton(aIcon);
+        JButton a2 = new JButton(aIcon);
+        JButton b1 = new JButton(bIcon);
+        JButton b2 = new JButton(bIcon);
+
+        c.add(tbtn);
+        c.add(a1);
+        c.add(a2);
+        c.add(b1);
+        c.add(b2);
+
+        a1.setBackground(Color.white);
+        a2.setBackground(Color.white);
+        b1.setBackground(Color.white);
+        b2.setBackground(Color.white);
+
+        tbtn.setBorderPainted(false);
+        tbtn.setContentAreaFilled(false);
+        tbtn.setOpaque(false);
+        a1.setBorderPainted(false);
+        a1.setContentAreaFilled(false);
+        a1.setOpaque(false);
+        a2.setBorderPainted(false);
+        a2.setContentAreaFilled(false);
+        a2.setOpaque(false);
+        b1.setBorderPainted(false);
+        b1.setContentAreaFilled(false);
+        b1.setOpaque(false);
+        b2.setBorderPainted(false);
+        b2.setContentAreaFilled(false);
+        b2.setOpaque(false);
+
+        c.setLayout(null);
+
+        tbtn.setBounds(730,600,450,450);
+        a1.setBounds(140,350,300,300);
+        a2.setBounds(140,500,300,300);
+        b1.setBounds(1550,350,300,300);
+        b2.setBounds(1550,500,300,300);
+        setSize(2000, 1080);
+        setVisible(true);
+
+        //윷던지기 버튼
+        tbtn.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		new YutFrame();
+        		dispose();
+        	}
+        });
+    }
+
+    // 윷 던질 때 나오는 클래스
+    class Yut_Do extends JPanel {
+    	private ImageIcon icon = new ImageIcon("Do.png");
+    	private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_Gae extends JPanel {
+		private ImageIcon icon = new ImageIcon("Gae.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_Geol extends JPanel {
+		private ImageIcon icon = new ImageIcon("Geol.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_Yut extends JPanel {
+		private ImageIcon icon = new ImageIcon("Yut.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_Mo extends JPanel {
+		private ImageIcon icon = new ImageIcon("Mo.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_BackDo extends JPanel {
+		private ImageIcon icon = new ImageIcon("BackDo.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+
+    
+    // 윷판 클래스
+    class YutPan extends JPanel {
+        private ImageIcon icon = new ImageIcon("f_finalyutpan.png");
+        private Image img = icon.getImage();
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+        }
+    }
+}
