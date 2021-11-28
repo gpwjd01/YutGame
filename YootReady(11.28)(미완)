@@ -1,0 +1,68 @@
+import java.awt.*;
+import javax.swing.*;
+
+public class YootReady {
+   //JRadioButton malradioButton  // 크루 선택 버튼(라디오 버튼으로)
+   int user_character; // 말(크루) 선정
+   int winner;  // 게임 승리자 플레이어 1: A, 플레이어 2 : B 
+   int GamePick; //미니 게임 중 어떤 게임을 할지 고를 변수
+   int rsp_result;
+   
+   //미니게임 선정
+   void setGame() {
+      // 0->가위바위보, 1->주사위 
+      GamePick = (int)(Math.random()*2); //0~1 사이의 난수 발생
+   }
+   
+   //가위바위보 게임
+   public void rspGame() {
+      /*
+       0:A(가위)<B(바위) -> B
+       1:A(가위)>B(보) ->A
+       2:A(바위)>B(가위)->A
+       3:A(바위)<B(보) ->B
+       4:A(보)<B(가위) ->B
+       5:A(보)>B(바위)  ->A 
+       */
+      int result = (int)(Math.random()*6);//0~5 사이의 난수 발생
+      if(result == 1||result == 2||result == 5) winner = 1;
+      else winner = 2;
+   }
+   
+   //주사위 게임
+   void DiceGame(){ 
+      int winner= 0; //A가 이기면 1 B가 이기면 2
+      int a, b;
+      a = (int)(Math.random()*6+1); // 1~6
+      while(true) {
+         b = (int)(Math.random()*6+1); // 1~6
+         if(a!=b) break;
+      }
+      if(a>b) {
+         System.out.println("A: "+a+" B: "+b);
+         System.out.println("A가 승리했습니다! ");
+         winner=1;
+      }
+      else if(a<b) {
+         System.out.println("A: "+a+" B: "+b);
+         System.out.println("B가 승리했습니다! ");
+         winner=2;
+      }
+   }
+   
+   //승리자 반환
+   int getWinner(){
+      return  winner;
+   }
+   //가위바위보 결과 반환
+   int getRspResult() {
+      return rsp_result;
+   }
+   
+   void pickCrew() {
+      //크루선정하기
+   }
+   void setCrew() {
+      // 사용자가 선택한 크루 저장
+   }
+}
