@@ -14,11 +14,16 @@ import StreetYut.YutPanel.Yut_Mo;
 import StreetYut.YutPanel.Yut_Yut;
 
 public class YutFrame extends JFrame{
-	YutPanel me = new YutPanel();
+	// Yoot 정보를 담고있는 클래스의 객체 생성 및 yut_result에 값 저장
+	Yoot me = new Yoot();
 	int yut_result = me.throwing();
+	
+	public int getYoot() {
+		return yut_result;
+	}
 
 	public YutFrame() {
-		setTitle("윷");
+		setTitle("윷 던지기");
 		switch (yut_result) {
 		case 1 :
 			setContentPane(new Yut_Do());
@@ -51,7 +56,6 @@ public class YutFrame extends JFrame{
             setVisible(true);
             break;
 		}
-
 		setSize(1000, 800);
 		setVisible(true);
 	}
