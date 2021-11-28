@@ -1,0 +1,109 @@
+package StreetYut;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import StreetYut.RuleFrame.RulePan;
+import StreetYut.YutPanel.Yut_BackDo;
+import StreetYut.YutPanel.Yut_Do;
+import StreetYut.YutPanel.Yut_Gae;
+import StreetYut.YutPanel.Yut_Geol;
+import StreetYut.YutPanel.Yut_Mo;
+import StreetYut.YutPanel.Yut_Yut;
+
+public class YutFrame extends JFrame{
+	YutPanel me = new YutPanel();
+	int yut_result = me.throwing();
+
+	public YutFrame() {
+		setTitle("윷");
+		switch (yut_result) {
+		case 1 :
+			setContentPane(new Yut_Do());
+			setSize(1000, 800);
+            setVisible(true);
+            break;
+		case 2 :
+			setContentPane(new Yut_Gae());
+			setSize(1000, 800);
+            setVisible(true);
+            break;
+		case 3 :
+			setContentPane(new Yut_Geol());
+			setSize(1000, 800);
+            setVisible(true);
+            break;
+		case 4 :
+			setContentPane(new Yut_Yut());
+			setSize(1000, 800);
+            setVisible(true);
+            break;
+		case 5 :
+			setContentPane(new Yut_Mo());
+			setSize(1000, 800);
+            setVisible(true);
+            break;
+		case -1 :
+			setContentPane(new Yut_BackDo());
+			setSize(1000, 800);
+            setVisible(true);
+            break;
+		}
+
+		setSize(1000, 800);
+		setVisible(true);
+	}
+
+	 // 윷 던질 때 나오는 클래스
+    class Yut_Do extends JPanel {
+    	private ImageIcon icon = new ImageIcon("Do.png");
+    	private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_Gae extends JPanel {
+		private ImageIcon icon = new ImageIcon("Gae.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_Geol extends JPanel {
+		private ImageIcon icon = new ImageIcon("Geol.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_Yut extends JPanel {
+		private ImageIcon icon = new ImageIcon("Yut.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_Mo extends JPanel {
+		private ImageIcon icon = new ImageIcon("Mo.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    class Yut_BackDo extends JPanel {
+		private ImageIcon icon = new ImageIcon("BackDo.png");
+		private Image img = icon.getImage();
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+		}   
+	}
+    
+}
