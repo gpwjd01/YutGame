@@ -1,65 +1,66 @@
+//ìœ·ë ˆë””ì— í¬í•¨-ì‹œì—°
 package javapro;
 
 public class rspGame {
 
 	public static void main(String[] args) {
-		int Winner= 0; //A°¡ ÀÌ±â¸é 1 B°¡ ÀÌ±â¸é 2
-		while(true){ //¹«ÇÑ ·çÇÁ
-			int a = (int)(Math.random()*3+1); //1~3 »çÀÌÀÇ ³­¼ö ¹ß»ı
-			int b = (int)(Math.random()*3+1); //1~3 »çÀÌÀÇ ³­¼ö ¹ß»ı
+		int Winner= 0; //Aê°€ ì´ê¸°ë©´ 1 Bê°€ ì´ê¸°ë©´ 2
+		while(true){ //ë¬´í•œ ë£¨í”„
+			int a = (int)(Math.random()*3+1); //1~3 ì‚¬ì´ì˜ ë‚œìˆ˜ ë°œìƒ
+			int b = (int)(Math.random()*3+1); //1~3 ì‚¬ì´ì˜ ë‚œìˆ˜ ë°œìƒ
 			
-			if(b==1){ //ÄÄÇ»ÅÍ °¡À§
-				if(a==1){ //»ç¿ëÀÚ °¡À§
-					System.out.println("A: °¡À§   B: °¡À§");
-					System.out.println("ºñ°å½À´Ï´Ù.");
+			if(b==1){ //ì»´í“¨í„° ê°€ìœ„
+				if(a==1){ //ì‚¬ìš©ì ê°€ìœ„
+					System.out.println("A: ê°€ìœ„   B: ê°€ìœ„");
+					System.out.println("ë¹„ê²¼ìŠµë‹ˆë‹¤.");
 				}
-				if(a==2){ //»ç¿ëÀÚ ¹ÙÀ§
-					System.out.println("A: ¹ÙÀ§   B: °¡À§");
-					System.out.println("A°¡ ½Â¸®Çß½À´Ï´Ù! ");
+				if(a==2){ //ì‚¬ìš©ì ë°”ìœ„
+					System.out.println("A: ë°”ìœ„   B: ê°€ìœ„");
+					System.out.println("Aê°€ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! ");
 					Winner=1;
 					break;
 				}
-				if(a==3){ //»ç¿ëÀÚ º¸
-					System.out.println("A: º¸  B: °¡À§");
-					System.out.println("B°¡ ½Â¸®Çß½À´Ï´Ù! ");
+				if(a==3){ //ì‚¬ìš©ì ë³´
+					System.out.println("A: ë³´  B: ê°€ìœ„");
+					System.out.println("Bê°€ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! ");
 					Winner=2;
 					break;
 				}
 			}
-			else if (b==2){ //ÄÄÇ»ÅÍ ¹ÙÀ§
-				if(a==1){ //»ç¿ëÀÚ °¡À§
-					System.out.println("A: °¡À§  B: ¹ÙÀ§");
-					System.out.println("B°¡ ½Â¸®Çß½À´Ï´Ù! ");
+			else if (b==2){ //ì»´í“¨í„° ë°”ìœ„
+				if(a==1){ //ì‚¬ìš©ì ê°€ìœ„
+					System.out.println("A: ê°€ìœ„  B: ë°”ìœ„");
+					System.out.println("Bê°€ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! ");
 					Winner=2;
 					break;
 				}
-				if(a==2){ //»ç¿ëÀÚ ¹ÙÀ§
-					System.out.println("A: ¹ÙÀ§  B: ¹ÙÀ§");
-					System.out.println("ºñ°å½À´Ï´Ù.");
+				if(a==2){ //ì‚¬ìš©ì ë°”ìœ„
+					System.out.println("A: ë°”ìœ„  B: ë°”ìœ„");
+					System.out.println("ë¹„ê²¼ìŠµë‹ˆë‹¤.");
 				}
-				if(a==3){ //»ç¿ëÀÚ º¸
-					System.out.println("A: º¸  B: ¹ÙÀ§");
-					System.out.println("A°¡ ½Â¸®Çß½À´Ï´Ù! ");
+				if(a==3){ //ì‚¬ìš©ì ë³´
+					System.out.println("A: ë³´  B: ë°”ìœ„");
+					System.out.println("Aê°€ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! ");
 					Winner=1;
 					break;
 				}
 			}
-			else if (b==3){ //ÄÄÇ»ÅÍ º¸
-				if(a==1){ //»ç¿ëÀÚ °¡À§
-					System.out.println("A: °¡À§  B: º¸");
-					System.out.println("A°¡ ½Â¸®Çß½À´Ï´Ù! ");
+			else if (b==3){ //ì»´í“¨í„° ë³´
+				if(a==1){ //ì‚¬ìš©ì ê°€ìœ„
+					System.out.println("A: ê°€ìœ„  B: ë³´");
+					System.out.println("Aê°€ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! ");
 					Winner=1;
 					break;
 				}
-				if(a==2){  //»ç¿ëÀÚ ¹ÙÀ§
-					System.out.println("A ¹ÙÀ§  B: º¸");
-					System.out.println("B°¡ ½Â¸®Çß½À´Ï´Ù! ");
+				if(a==2){  //ì‚¬ìš©ì ë°”ìœ„
+					System.out.println("A ë°”ìœ„  B: ë³´");
+					System.out.println("Bê°€ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤! ");
 					Winner=2;
 					break;
 				}
-				if(a==3){  //»ç¿ëÀÚ º¸
-					System.out.println("A: º¸  B: º¸");
-					System.out.println("ºñ°å½À´Ï´Ù.");
+				if(a==3){  //ì‚¬ìš©ì ë³´
+					System.out.println("A: ë³´  B: ë³´");
+					System.out.println("ë¹„ê²¼ìŠµë‹ˆë‹¤.");
 				}
 			}
 		}
