@@ -278,14 +278,14 @@ public class PlayStreetYut implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()== yutpanel.throwButton && situation == 1)
         {
-            throwYoot();
+            throwYoot(); // 윷 던지기
         }
         if(e.getSource()== yutpanel.newPiece && situation == 3)
         {
             situation=2;
-            putPiece();
+            putPiece(); // 새로운 말 놓기
         }
-        if(situation==3) {
+        if(situation==3) { // 말 이동 
             for(int i=1;i<21;i++) {
                 if(e.getSource()== yutpanel.panButton[0][i])
                 {
